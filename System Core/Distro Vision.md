@@ -4,13 +4,21 @@ Benchtop is intended to be a complete technical workstation: an immutable base w
 
 The base should be small enough to understand and maintain, without requiring users to assemble basic hardware support themselves. That includes GPU and Wi-Fi drivers, printer and scanner support, function keys, and proprietary drivers or firmware where needed. Remove obsolete dependencies such as GTK2 and Python 2 where the supported application set allows it. Prefer userspace implementations for legacy filesystems and file-sharing protocols.
 
+## Why NixOS was rejected
+
+KIWI already provides a declarative description of the system image, including its package selection and build configuration. NixOS offers additional control over dependencies and system configuration, but those benefits do not justify changing the distribution for Benchtop.
+
+Compatibility with existing system-administration tools and practices is a substantial concern. Tools that assume conventional filesystem paths, package management, or directly editable system configuration can need adaptation under NixOS. Its Nix language and module system also introduce a configuration syntax and model far removed from conventional Linux administration. For Benchtop, the resulting integration and maintenance work outweighs the additional declarative benefits. The project will continue with Tumbleweed, OBS, and KIWI.
+
 ## Supported hardware baseline
 
 The minimum design and test target is:
 
-* 16 GB RAM
-* A quad-core CPU supporting x86-64-v3
-* A 1920 × 1080 display
+* CPU: x86-64-v3, 4 cores / 8 threads or better
+* Memory: 16 GB minimum; 32 GB or more recommended
+* Storage: 1 TB SSD minimum
+* Display: 1920 × 1080 minimum
+* Graphics: hardware acceleration suitable for the supported GNOME/Wayland stack
 
 Lower-spec hardware may work, but it is outside the design and test target. The project does not aim to make this workstation environment suitable for very limited hardware.
 

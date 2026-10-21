@@ -10,9 +10,11 @@ Start with the [distro vision](System%20Core/Distro%20Vision.md) for the intende
 
 The minimum design and test target is:
 
-* 16 GB RAM
-* A quad-core CPU supporting x86-64-v3
-* A 1920 × 1080 display
+* CPU: x86-64-v3, 4 cores / 8 threads or better
+* Memory: 16 GB minimum; 32 GB or more recommended
+* Storage: 1 TB SSD minimum
+* Display: 1920 × 1080 minimum
+* Graphics: hardware acceleration suitable for the supported GNOME/Wayland stack
 
 Lower-spec hardware may work, but it is outside the design and test target. The project does not aim to make this workstation environment suitable for very limited hardware.
 

@@ -1,6 +1,8 @@
 # NixOS build plan — not adopted
 
-**Status, September 26, 2026:** Nix/NixOS is no longer part of the Benchtop direction. The active system is based on openSUSE Tumbleweed, with Flatpak and Homebrew for applications and additional tools. This document is retained as the record of an earlier proposal, not a future implementation plan. Its schedules, version claims, recommendations, and verification ledger are historical. In particular, its x86-64-v1 baseline is superseded: the supported minimum is now x86-64-v3, four CPU cores, 16 GB RAM, and a 1920 × 1080 display. See [Build Configuration](Build%20Configuration.md) for the active build.
+**Status, September 26, 2026:** Nix/NixOS is no longer part of the Benchtop direction. The active system is based on openSUSE Tumbleweed, with Flatpak and Homebrew for applications and additional tools. This document is retained as the record of an earlier proposal, not a future implementation plan. Its schedules, version claims, recommendations, and verification ledger are historical. In particular, its x86-64-v1 baseline is superseded: the supported baseline is now x86-64-v3 with 4 cores / 8 threads, 16 GB RAM (32 GB or more recommended), a 1 TB SSD, a 1920 × 1080 display, and hardware acceleration suitable for the supported GNOME/Wayland stack. See [Build Configuration](Build%20Configuration.md) for the active build.
+
+The [distro vision](System%20Core/Distro%20Vision.md#why-nixos-was-rejected) records the reason for rejecting NixOS: KIWI already meets the declarative image-building need, while compatibility costs for existing administration tools and the unfamiliar configuration language add work that Benchtop does not need.
 
 ## Original proposal
 
