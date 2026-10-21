@@ -101,6 +101,14 @@ No text logins on the virtual consoles.  The first console belongs to the login 
 
 For a rescue shell when the desktop doesn't start: hold Space while the computer starts to show the boot menu, press e, and add `systemd.unit=rescue.target SYSTEMD_SULOGIN_FORCE=1` to the kernel command line.  root has no password, and SYSTEMD_SULOGIN_FORCE=1 lets the rescue shell start without one.  The TPM only unlocks the disk for the unchanged command line, so the disk asks for its recovery key
 
+## Console renderer idea (kmscon)
+
+Consider replacing the kernel's fbcon with [kmscon](https://github.com/kmscon/kmscon), a userspace KMS/DRM console that renders a scalable font (the TTF monospace stack rather than fbcon's bitmap font), with Unicode, scrollback and a mouse.  The maintained revival is at version 10, packaged in openSUSE:Factory with the freetype renderer and libseat, so it needs no new packaging.  [Fedora write-up](https://fedoramagazine.org/modernizing-the-console-with-kmscon/)
+
+This records an idea, not a decision.  kmscon renders the virtual terminals, and Graphical Logins Only turns those off (NAutoVTs=0, getty disabled, tty1 is the login screen).  kmscon is a late systemd service, so it does not render the early-boot kernel messages or the rescue sulogin shell, which stay on fbcon.  Using it would mean reopening text consoles as kmscon VTs, which reverses the graphical-only choice for those terminals.
+
+Open questions before any switch: whether to stay graphical-only (then kmscon has little to render) or deliberately bring back Ctrl+Alt+F terminals as kmscon consoles; the SELinux gap the openSUSE maintainer flagged (kmscon's issue display is patched out pending policy, so kmscon under the targeted policy needs checking for denials); and the DRM-master handoff between a kmscon VT and GDM on real hardware.  If the real want is only a legible rescue console on a HiDPI panel, a larger console font may do instead.
+
 ## Linux Resume Quirks
 
 * Reset Bluetooth

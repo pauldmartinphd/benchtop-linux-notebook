@@ -2,10 +2,6 @@
 
 Unsorted references and ideas. The older scratch block is preserved in [Imported Notes](Reference/Imported%20Notes.md); material already assigned to a topic should be maintained on that page.
 
-## Console
-
-https://github.com/kmscon/kmscon
-
 ## GNOME extensions
 https://github.com/NarkAgni/dhruva
 https://github.com/bjuergens/whatcable-gnome
