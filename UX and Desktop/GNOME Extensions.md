@@ -38,6 +38,10 @@ Include but toggle off by default.
 ### GSConnect
 https://extensions.gnome.org/extension/1319/gsconnect/
 
+### Connect integration idea
+
+Consider merging the phone-integration ("Connect") functionality. GSConnect covers Android through the KDE Connect protocol; [Tether](https://github.com/zackb/tether) ([write-up](https://zackbartel.com/blog/2026/08/tether/)) brings Apple Continuity features to the Wayland desktop for iPhone users: clipboard sync, file transfer, SMS and iMessage, notification mirroring, and calls. Tether is MIT-licensed and runs as a daemon with a GTK app rather than a GNOME extension, shipping as a Flatpak and an AppImage, so it would ride Flathub rather than the package set. The entry records the idea of a single Connect story covering both phone ecosystems, not a decision to adopt Tether.
+
 ### Just Perfection
 
 * Click to Close Overview (replaces click-to-close-overview@l3nn4rt.github.io)

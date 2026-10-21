@@ -119,6 +119,46 @@ Note: the driver creates /dev/ntsync readable and writable by everyone, so no ud
 See [NTSYNC Kernel Docs](https://docs.kernel.org/userspace-api/ntsync.html)
 See [CachyOS Settings](https://github.com/CachyOS/CachyOS-Settings/blob/master/usr/lib/modules-load.d/ntsync.conf)
 
+## USB Device Emulation (raw-gadget)
+
+raw-gadget lets userspace emulate USB devices — one you are developing, or a custom-class device — for host-side testing and software proxying.  The `raw_gadget` module is already in the image, along with the configfs and legacy gadget modules (`g_hid`, `g_ether`, `g_mass_storage`, `gadgetfs`, `libcomposite`).  Emulating a device without a USB Device Controller needs `dummy_hcd`, a software controller the stock kernel does not build; the custom kernel adds it (see [Build Configuration](../Build%20Configuration.md#custom-kernel)).
+
+Give `/dev/raw-gadget` to administrators (wheel), as with the i2c nodes.  The modules do not load on their own.
+
+##### /etc/modules-load.d/raw-gadget.conf
+
+	raw_gadget
+	dummy_hcd
+
+##### /etc/udev/rules.d/90-raw-gadget-wheel.rules
+
+	ACTION!="remove", KERNEL=="raw-gadget", RUN+="/usr/bin/setfacl -m g:wheel:rw $devnode"
+
+Note: dummy_hcd does not exist until the custom kernel builds it, so its modules-load line does nothing until then.  Any user of /dev/raw-gadget can present an arbitrary USB device to this machine, so the node is restricted to administrators rather than left open
+
+## Firmware Flashing (flashrom)
+
+flashrom is in the base set, for programming BIOS/UEFI/coreboot and SPI flash.  External USB programmers (CH341A, FT2232/FT232H, Dediprog, serprog boards) work through libusb and need only device permissions.  The internal programmer (the board's own flash) needs kernel changes that belong to the custom kernel — lockdown off, and the spi-intel driver kept off the flash controller (see [Build Configuration](../Build%20Configuration.md#custom-kernel)).
+
+Give the supported USB programmers to administrators (wheel).  FT2232-based programmers are bound by ftdi_sio as a serial port; detaching them lets flashrom's libftdi take them.  serprog boards appear as /dev/ttyUSB* or /dev/ttyACM* and use the dialout group.
+
+##### /etc/udev/rules.d/90-flashrom-wheel.rules
+
+	# Illustrative ids: CH341A (WCH 1a86:5512), FT2232H (0403:6010), Dediprog
+	# SF100 (0483:dada). Verify against the programmers actually used.
+	SUBSYSTEM=="usb", ATTR{idVendor}=="1a86", ATTR{idProduct}=="5512", RUN+="/usr/bin/setfacl -m g:wheel:rw $devnode"
+	SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="6010", RUN+="/usr/bin/setfacl -m g:wheel:rw $devnode"
+	SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="dada", RUN+="/usr/bin/setfacl -m g:wheel:rw $devnode"
+
+##### /etc/modprobe.d/spi-intel.conf (custom kernel)
+
+	# Keep the kernel from binding the PCH SPI flash controller, so flashrom can
+	# reach it. Gives up the kernel's MTD access and write-protection enforcement
+	# for the onboard flash.
+	blacklist spi_intel_pci
+
+Note: the internal programmer stays blocked by kernel lockdown until the custom kernel drops the Secure Boot lockdown trigger (Build Configuration), so the blacklist only matters from that kernel on.  `/dev/mem` and `/dev/port` are already built in (CONFIG_DEVMEM, CONFIG_DEVPORT)
+
 ## Monitoring Services
 
 ### Log Monitoring
