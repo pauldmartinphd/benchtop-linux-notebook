@@ -10,13 +10,12 @@ Slowroll was evaluated first and rejected as a build base. On the Build Service,
 
 ## Source repositories
 
-The build is composed of five public repositories under github.com/TechnicompLabs, each mapping to a single Build Service package.
+The build is composed of four public repositories under github.com/TechnicompLabs, each mapping to a single Build Service package.
 
 - `benchtop-settings` builds `tc-benchtop-settings`, a configuration package whose files are installed directly from `Source0` onward, without a tarball. It also adds the TCBL package repository (`repo-tcbl`, at priority 90, above the openSUSE repositories) and ships the repository's signing key, which the image build imports.
 - `benchtop-patterns` builds `patterns-tc-benchtop`, which produces the metapackages `patterns-tc-benchtop-base`, `patterns-tc-benchtop-admin` and `patterns-tc-benchtop-languages`. The image depends on the base metapackage. The other two are optional sets, which the installer offers and installs during the installation, or which can be installed later: remote administration and servers (Cockpit, the Samba and NFS servers, container image and infrastructure tools, database clients), and programming languages.
 - `benchtop-branding` builds `tc-benchtop-branding`, the wallpaper, and `distribution-logos-tc-benchtop`, the Technicomp logos, which take the place of openSUSE's `distribution-logos-openSUSE-Tumbleweed` so that openSUSE's boot splash, login screen and icons show them.
 - `benchtop-image` builds `tc-benchtop-image`, the kiwi image description. It is an oem, btrfs read-only-snapshot layout derived from Aeon.
-- `benchtop-gate` builds `tc-benchtop-gate`, whose version is the snapshot gate, and holds the workflow that moves the gate (see Snapshot gate).
 
 Each package is connected to its repository by an scmsync entry in its `_meta`:
 
@@ -29,15 +28,12 @@ The image description uses `<source path="obsrepositories:/">` for its repositor
 ## Build Service project structure
 
 ```
-home:technicomp:benchtop            # repository openSUSE_Tumbleweed -> path openSUSE:Factory/snapshot;
-                                    #   release target home:technicomp:benchtop:gated (manual)
+home:technicomp:benchtop            # repository openSUSE_Tumbleweed -> path openSUSE:Factory/snapshot
   tc-benchtop-settings
   patterns-tc-benchtop
   tc-benchtop-branding
-  tc-benchtop-gate
 home:technicomp:benchtop:images     # Type: kiwi; repository openSUSE_Tumbleweed
   tc-benchtop-image                 #   paths: home:technicomp:benchtop/openSUSE_Tumbleweed, openSUSE:Factory/snapshot
-home:technicomp:benchtop:gated      # no builds; receives the releases of home:technicomp:benchtop
 ```
 
 The image resides in its own subproject because a kiwi build requires `Type: kiwi` in the project configuration, and applying that setting to the base project would interfere with the ordinary RPM builds there.
@@ -87,66 +83,6 @@ rebuild_on_push:
         - main
 ```
 
-## Snapshot gate
-
-Installed systems do not follow Tumbleweed as it is published. They stay on one Tumbleweed snapshot, the gate, with the TCBL packages that passed the image build on it, and they move to a newer snapshot only once the image has built on that snapshot. A snapshot in which the package set cannot be installed therefore never reaches an installed system, which waits on the last snapshot that worked. Without the gate, `transactional-update` would cancel each automatic update for as long as Tumbleweed stayed in such a state, because zypper answers a dependency problem with cancel when it runs non-interactively.
-
-Until the gate, the image carried no Tumbleweed repository: kiwi adds a build repository to the image only when it is marked `imageinclude`, and `repo-tcbl` was the only repository on an installed system, so installed systems received no Tumbleweed updates.
-
-On the installed system:
-
-- `repo-oss` (tc-benchtop-settings) is Tumbleweed at `https://download.opensuse.org/history/$snapshotVersion/tumbleweed/repo/oss/`, the snapshot history that `tumbleweed-cli` also uses. The image writes the snapshot it was built from, the version of `openSUSE-release`, to `/etc/zypp/vars.d/snapshotVersion`.
-- `repo-tcbl` is home:technicomp:benchtop:gated. It holds the TCBL packages that passed the image build, and `tc-benchtop-gate`, whose version is the gate.
-- Before each automatic update, `/usr/libexec/tcbl/gate`, run by a drop-in for `transactional-update.service`, reads the version of `tc-benchtop-gate` in `repo-tcbl` and, if it is newer, writes it to `snapshotVersion`, so the update that follows moves to the gate. The snapshot only moves forward: a system installed from an image newer than the gate keeps its own snapshot until the gate passes it.
-- The installer's optional package sets come from the same two repositories, so they match the snapshot of the system they are installed on.
-
-The gate is moved by `gate.py` in `benchtop-gate`, which a GitHub workflow runs every hour:
-
-1. When the latest image build has passed and the TCBL packages in it are still the current builds in home:technicomp:benchtop, it records the image build, its snapshot and those package builds in `tested.txt`, sets the version in `tc-benchtop-gate.spec` to the snapshot, and commits both. A package rebuilt since the image build holds this back until the next image build, which the rebuild triggers.
-2. Once the Build Service has built that `tc-benchtop-gate`, it releases every package of home:technicomp:benchtop into home:technicomp:benchtop:gated, `tc-benchtop-gate` last, provided the current builds are still the tested ones. The release goes through the project's release target, with a Build Service token of type release.
-3. It opens the GitHub issue "Snapshot gate needs attention" when the gate is missing, more than 7 days behind the newest snapshot, or among the 5 oldest snapshots in download.opensuse.org/history, which keeps about four weeks of them. The issue closes when the gate moves again.
-
-When the image cannot build on new snapshots, the gate stays where it is, and so do installed systems. It moves again when a fixed package carried in home:technicomp:benchtop lets the image build, or when the workflow is run by hand with a snapshot, which skips the image check and releases the current builds as they are. If the gate snapshot leaves the history first, updates fail, without changing the installed system, until the gate moves.
-
-### Setup
-
-home:technicomp:benchtop:gated has no builds; it only receives releases:
-
-```xml
-<project name="home:technicomp:benchtop:gated">
-  <title>Technicomp Benchtop Linux - Gated</title>
-  <description>...</description>
-  <person userid="technicomp" role="maintainer"/>
-  <build>
-    <disable/>
-  </build>
-  <repository name="openSUSE_Tumbleweed">
-    <arch>x86_64</arch>
-  </repository>
-</project>
-```
-
-home:technicomp:benchtop names it as the release target of its repository; the release target comes before the path:
-
-```xml
-  <repository name="openSUSE_Tumbleweed">
-    <releasetarget project="home:technicomp:benchtop:gated" repository="openSUSE_Tumbleweed" trigger="manual"/>
-    <path project="openSUSE:Factory" repository="snapshot"/>
-    <arch>x86_64</arch>
-  </repository>
-```
-
-`tc-benchtop-gate` is connected to `benchtop-gate` by scmsync, like the other packages. The release token is not bound to a package; its secret is stored as the Actions secret `OBS_RELEASE_TOKEN` of `benchtop-gate`:
-
-```
-osc meta prj -F benchtop-gated.meta.xml home:technicomp:benchtop:gated
-osc meta prj -F benchtop.meta.xml home:technicomp:benchtop
-osc meta pkg -F tc-benchtop-gate.meta.xml home:technicomp:benchtop tc-benchtop-gate
-osc token --create --operation release
-```
-
-The gated project has no signing key of its own. Like the other subprojects, it is signed with the home:technicomp key, which tc-benchtop-settings ships.
-
 ## Common commands
 
 ```
@@ -157,12 +93,11 @@ osc getbinaries home:technicomp:benchtop:images tc-benchtop-image openSUSE_Tumbl
 osc service remoterun home:technicomp:benchtop <package>                        # force scmsync to retrieve source again
 osc rebuild <project> <package>                                                 # force a rebuild
 osc cat <project> <package> <file>                                             # display the source the Build Service holds
-osc release home:technicomp:benchtop <package>                                  # release a package into home:technicomp:benchtop:gated by hand
 ```
 
 ## Notes on build behaviour
 
-The image resolves against a single tested Tumbleweed snapshot, so the whole package set is internally consistent at build time. The image build follows the latest tested Tumbleweed snapshot; installed systems follow the snapshot gate, which moves to a snapshot once the image has built on it.
+The image resolves against a single tested Tumbleweed snapshot, so the whole package set is internally consistent at build time. The update cadence is determined by which snapshot the build targets; it currently follows the latest tested Tumbleweed snapshot and can be slowed by pinning to a fixed snapshot.
 
 When a package requires a capability that several packages provide, the build fails with "have choice" until a `Prefer` line selects one. This is expected, and is not a missing-package error.
 
