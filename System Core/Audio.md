@@ -4,6 +4,14 @@
 
 PipeWire is the default audio/video server replacing both PulseAudio and JACK. It handles Bluetooth audio codecs, screen sharing (for Wayland), and pro-audio routing.
 
+### JACK (through PipeWire)
+
+PipeWire is the JACK server; no standalone `jackd` is installed, and adding one would conflict with it. `pipewire-jack` (in the base pattern) and `pipewire-libjack-0_3` ship PipeWire's JACK libraries — `libjack.so.0`, `libjackserver.so.0` and `libjacknet.so.0` under `/usr/lib64/pipewire-0.3/jack/`.
+
+It is wired transparently: `pipewire-libjack-0_3` installs `/etc/ld.so.conf.d/pipewire-jack-x86_64.conf`, which puts those libraries on the dynamic-linker path, so any application that links `libjack.so.0` uses PipeWire's implementation automatically, with no per-application setup. `pw-jack` is also installed for launching a program against PipeWire's JACK explicitly. A Flatpak pro-audio application instead uses its runtime's own PipeWire-JACK layer over the shared PipeWire socket.
+
+Low-latency scheduling uses rtkit with the rtprio and memlock limits below (Realtime Audio Configuration), so a JACK client needing SCHED_FIFO must run as a user in that limits group. As built: Build31.1, PipeWire 1.6.9.
+
 ### Bluetooth codecs
 
 The goal is to include the codec support needed by the supported headsets. The notes list SBC/SBC-XQ, AAC, aptX variants, LDAC, and LC3/LC3plus for evaluation. Availability depends on the PipeWire build, session-manager configuration, Bluetooth transport, and both devices; installing one package does not establish support for every codec.
