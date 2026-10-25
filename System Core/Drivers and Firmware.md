@@ -159,10 +159,26 @@ Give the supported USB programmers to administrators (wheel).  FT2232-based prog
 
 Note: the internal programmer stays blocked by kernel lockdown until the custom kernel drops the Secure Boot lockdown trigger (Build Configuration), so the blacklist only matters from that kernel on.  `/dev/mem` and `/dev/port` are already built in (CONFIG_DEVMEM, CONFIG_DEVPORT)
 
+## Hardware Support Rules from Other Projects
+
+tc-benchtop-settings carries udev rules copied unchanged from other projects, for hardware that needs access or power settings out of the box: game controllers and VR headsets (game-devices-udev); Framework Laptop 16 modules, the HORIPAD STEAM controller, Wooting keyboards and the Apple SuperDrive (Universal Blue); and HDA power saving off on AC power, NVIDIA runtime power management and /dev/cpu_dma_latency for the audio group (CachyOS).  They give devices to the user at the seat (uaccess) or to a group, never to everyone, and set nothing that a 90-tcbl- rule sets.  The settings repository's [UPSTREAM.md](https://github.com/TechnicompLabs/benchtop-settings/blob/main/UPSTREAM.md) lists them, the rules reviewed and left out with the reasons (device nodes open to everyone, rules that systemd or the kernel already covers, and CachyOS's system policy), and how scripts/check-upstream reports upstream changes
+
+## Wireless Regulatory Domain
+
+The kernel applies a country's wireless rules (channels and transmit power, which open up 5 and 6 GHz) only from the signed regulatory database, and the image had none, so every machine stayed in the restrictive world domain.  tc-benchtop-settings now requires wireless-regdb, and carries iw-setregdomain, which sets the domain to the country of the timezone when a wireless device appears
+
+##### /etc/sysconfig/regdomain (only to override the timezone)
+
+	COUNTRY=US
+
+Note: OpenSUSE's kernel accepts only a signed database (CONFIG_CFG80211_REQUIRE_SIGNED_REGDB).  The domain follows the timezone when the device appears, so a changed timezone applies from the next boot.  CachyOS's fork of iw-setregdomain also reacts to timezone changes, but calls /usr/bin/iw, where OpenSUSE installs /usr/sbin/iw
+
 ## Monitoring Services
 
 ### Log Monitoring
-Add users to systemd-journal group on creation
+Only root and the members of systemd-journal read the whole system journal.  Upstream systemd also gives read access to the wheel and adm groups (ACLs in its tmpfiles.d/systemd.conf), but OpenSUSE builds systemd with -Dadm-group=false -Dwheel-group=false, so on Benchtop administrators (wheel) read only their own journal
+
+#TODO — Journal access for administrators.  Either add users to systemd-journal when they are created (the installer and GNOME's account creation), or give wheel the read ACL that upstream systemd sets, in a 90-tcbl- tmpfiles.d drop-in, as Benchtop gives dumpcap and the SMBus devices to wheel.  The second covers anyone made an administrator later
 
 ### Core Dumps
 
@@ -182,9 +198,9 @@ Add users to systemd-journal group on creation
 OpenSUSE's kernel builds the UEFI backend of pstore switched off.  At an oops or panic the kernel writes the end of its log into UEFI variables, and at the next boot systemd-pstore moves it to /var/lib/systemd/pstore.  To test on a spare machine: `echo c | sudo tee /proc/sysrq-trigger`, then check /var/lib/systemd/pstore after the reboot
 
 ### Hardware Monitoring
+smartd is on out of the box: OpenSUSE's 95-default-SUSE.preset enables smartd.service, which watches every disk (DEVICESCAN).  rasdaemon is installed but off: no preset enables it, so OpenSUSE's 99-default-disable.preset turns it off
 
-    sudo systemctl enable --now smartd
-    sudo systemctl enable --now rasdaemon
+#TODO — Enable rasdaemon in 85-tcbl.preset, so that it records memory and machine-check errors from the first boot
 
 ### Performance Monitoring Tools
 

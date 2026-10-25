@@ -35,3 +35,5 @@ The earlier BBR experiment used this pair; it is not an instruction to replace t
 
 	[main]
 	dns=systemd-resolved
+
+CachyOS-Settings ships the same setting (`usr/lib/NetworkManager/conf.d/dns.conf`).

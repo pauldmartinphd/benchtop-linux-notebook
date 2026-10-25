@@ -72,6 +72,8 @@ Recorded settings for systemd-zram-service:
     # Higher values encourage the kernel to be more eager to move pages to swap.
     SWAPPINESS=180
 
+CachyOS-Settings sets `vm.swappiness` to 150 when zram0 starts and switches zswap off at the same time (`30-zram.rules`, compared October 25). It is not adopted, because it would override the 180 above. Its reason for switching zswap off with zram, that zswap can keep pages from reaching zram and from zramctl's counts, is input for the zswap question.
+
 ### ZRAM Hibernate
 
 #TODO — With the custom kernel, zram stays the everyday swap and a swap file on disk holds the hibernation image. See [Build Configuration](../Build%20Configuration.md#custom-kernel)

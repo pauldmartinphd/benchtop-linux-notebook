@@ -42,7 +42,7 @@ The original audio check could not acquire SCHED_FIFO priority 80. The selected 
 See https://wiki.linuxaudio.org/wiki/system_configuration#limitsconfaudioconf
 
 ### Power Management for Audio
-The original check found that the user could not access `/dev/cpu_dma_latency`. Review the device permissions needed by applications such as Ardour and Reaper; this was an access problem in the tested setup, not a general inability to control latency from userspace.
+The original check found that the user could not access `/dev/cpu_dma_latency`, which applications such as Ardour and Reaper use to keep the CPU out of deep idle states. tc-benchtop-settings now gives it to the audio group (`99-cpu-dma-latency.rules`, from CachyOS), the group that the realtime limits also use. It also switches HDA power saving off while on AC power and restores it on battery (`20-audio-pm.rules` with its `audio-pm-ctl`, from CachyOS), against the crackling that some hardware has when the codec powers down and back up.
 See https://wiki.linuxaudio.org/wiki/system_configuration#quality_of_service_interface
 
 ### Swappiness for Audio

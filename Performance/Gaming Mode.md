@@ -1,6 +1,6 @@
 # Gaming Mode
 
-**Status, September 29, 2026:** Resolved. THP is `always` system-wide ([memory management](Memory%20Management.md)), NTSYNC loads at every boot ([drivers and firmware](../System%20Core/Drivers%20and%20Firmware.md)), the pattern installs gamemode and steam-devices (udev rules for Steam controllers and VR hardware), and MangoHud and gamescope come from Flathub. Not implemented: the per-session compaction toggle and the ublue-os controller rules below; the other tools below remain candidates in [future ideas](Future%20Ideas.md).
+**Status, October 25, 2026:** Resolved. THP is `always` system-wide ([memory management](Memory%20Management.md)), NTSYNC loads at every boot ([drivers and firmware](../System%20Core/Drivers%20and%20Firmware.md)), the pattern installs gamemode and steam-devices (udev rules for Steam controllers and VR hardware), tc-benchtop-settings carries game-devices-udev's controller rules (below), and MangoHud and gamescope come from Flathub. Not implemented: the per-session compaction toggle; the other tools below remain candidates in [future ideas](Future%20Ideas.md).
 
 ## Game Mode THP Settings
 
@@ -28,8 +28,10 @@ See [Measuring THP Impact](https://alexandrnikitin.github.io/blog/transparent-hu
 
 ## Udev Rules for Game Controllers
 
-Extra udev rules for game controllers and other devices included out of the box.
-https://github.com/ublue-os/packages/tree/main/packages/ublue-os-udev-rules/src/udev-rules.d
+tc-benchtop-settings carries all of game-devices-udev's rules, installed as `71-*`, for controllers, arcade sticks, flight and racing hardware and VR headsets, and two of Universal Blue's: the HORIPAD STEAM over its wireless receiver and Bluetooth, which game-devices-udev does not cover, and Wooting keyboards. They give the device to the user at the seat (`uaccess`). steam-devices covers some of the same controllers with the same access, which is harmless. The Universal Blue rules left out, and why, are in the settings repository's [UPSTREAM.md](https://github.com/TechnicompLabs/benchtop-settings/blob/main/UPSTREAM.md), which `scripts/check-upstream` compares with upstream.
+
+* https://codeberg.org/fabiscafe/game-devices-udev
+* https://github.com/ublue-os/packages/tree/main/packages/ublue-os-udev-rules/src/udev-rules.d
 
 ## Other experiments
 

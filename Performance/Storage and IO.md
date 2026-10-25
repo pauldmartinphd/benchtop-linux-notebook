@@ -6,6 +6,8 @@ The scheduler and removable-drive writeback rules retain the September 16 correc
 
 BFQ is used for rotational disks and slow removable flash because it prioritizes fairness and interactive latency when individual I/O operations are expensive. Kyber is used for SSDs and NVMe because it provides low-overhead queue management suited to fast multiqueue storage. Since USB SSDs and flash drives both appear as `sd*` devices, non-rotational `sd*` devices default to Kyber, with removable USB media explicitly overridden back to BFQ.
 
+CachyOS-Settings has its own scheduler rules (`60-ioschedulers.rules`, compared October 25): mq-deadline for SATA SSDs and SD/eMMC, kyber for NVMe, BFQ for hard disks. Benchtop's rules stay as they are; they also keep slow removable USB flash on BFQ. CachyOS's SATA link power management at max_performance (`50-sata.rules`) and its rule that keeps internal hard disks from spinning down (`69-hdparm.rules`) were not adopted either: both trade power, and the second also noise and wear, for latency, which is system policy rather than hardware support.
+
 ## /etc/udev/rules.d/70-iosched.rules
 
     # /etc/udev/rules.d/10-iosched.rules

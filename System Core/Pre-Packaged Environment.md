@@ -21,6 +21,28 @@ GNOME Software installs Flatpak files opened from outside it (such as the .flatp
 
     gsettings set org.gnome.software install-bundles-system-wide false
 
+### Homebrew Per User
+
+Homebrew is installed for each user, in their own home, the first time they run brew: /usr/bin/brew runs Homebrew's own installer for them, without sudo, and hands the command over to it.  Nothing is downloaded for users who never run brew.  Homebrew's prebuilt packages (bottles) work in a prefix no longer than its default, /home/linuxbrew/.linuxbrew (26 bytes), so the prefix is ~/.linuxbrew, or ~/.brew when the home path is too long for that (user names of 10 to 14 characters); a longer home path gets an error instead of an installation that builds everything from source.  Homebrew calls this support for other prefixes new and possibly not yet fully stable
+
+##### /usr/etc/profile.d/tcbl-homebrew.sh
+
+	# Technicomp Benchtop Linux: the user's own Homebrew (installed by /usr/bin/brew
+	# on first use) on the PATH of each login session, with its MANPATH and INFOPATH
+	if [ -z "${HOMEBREW_PREFIX-}" ] && [ "$(id -u)" -ne 0 ]; then
+		for _tcbl_brew in "$HOME/.linuxbrew" "$HOME/.brew" /home/linuxbrew/.linuxbrew; do
+			if [ -x "$_tcbl_brew/bin/brew" ]; then
+				eval "$("$_tcbl_brew/bin/brew" shellenv)"
+				break
+			fi
+		done
+		unset _tcbl_brew
+	fi
+
+Note: the profile.d script runs at login, so a user who installs Homebrew during a session has its commands on the PATH from the next login; brew itself works at once, and it prints the line that adds Homebrew to the current terminal.  OpenSUSE's bash.bashrc does not read profile.d for each new terminal, and the user's dotfiles are left alone.  The compilers Homebrew needs (gcc, gcc-c++) are in the base pattern.  Tested October 25 in a test environment (Ubuntu 24.04, glibc 2.39) as an unprivileged user: the install needed no sudo, and hello was poured from its bottle into ~/.linuxbrew
+
+#TODO — Test on an installed Benchtop system
+
 ### AppImage backend and AppImageHub
 
 GNOME Software needs an AppImage backend with AppImageHub integration so that users can discover and install AppImages through the same interface as other applications. This is a development requirement, not a feature already implemented in the Benchtop image.
