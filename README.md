@@ -29,6 +29,7 @@ Lower-spec hardware may work, but it is outside the design and test target. The 
 | Security | [Architecture](Security/Security%20Architecture.md), [analysis tools](Security/Security%20Tools.md) |
 | Networking | [Network services](Networking/Network%20Services.md), [printing and scanning](Networking/Printing.md), [self-hosted services](Networking/Self-Hosted%20Services.md) |
 | Applications | [Application candidates](Applications/Application%20List.md), [terminal and CLI](Applications/Terminal%20and%20CLI.md), [browsers](Applications/Browser%20Configuration.md) |
+| History | [Build log](Build%20Log/README.md), one file per day |
 | Reference | [Research links](Reference/Research%20Links.md), [scratch notes](Scratch.md), [imported source notes](Reference/Imported%20Notes.md) |
 
 Repeated source excerpts have been collected in the imported-notes archive so that the topic pages can be read without a second copy of each note. The archive preserves the wording needed to check how the material was combined.
