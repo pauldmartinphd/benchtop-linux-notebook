@@ -2,7 +2,7 @@
 
 One file per day of work on Technicomp Benchtop Linux, named by date.
 
-Days through October 6 are reconstructed from the commit histories of the build repositories and this notebook, and from OBS package revisions; they record what changed and when, but little of the reasoning. From October 12 the entries also draw on the working-session record, so they include findings, decisions and reversals. Times are US Eastern.
+Days through October 6 are reconstructed from the commit histories of the build repositories and this notebook (including the notes as committed), OBS package revisions, and the design notes and audit kept in the notes vault's outputs folder. They record what changed and when, and the reasoning where those sources give it. From October 12 the entries also draw on the working-session record, so they include findings, decisions and reversals. Times are US Eastern.
 
 Commit hashes refer to these repositories: [benchtop-settings](https://github.com/TechnicompLabs/benchtop-settings), [benchtop-patterns](https://github.com/TechnicompLabs/benchtop-patterns), [benchtop-image](https://github.com/TechnicompLabs/benchtop-image), [benchtop-branding](https://github.com/TechnicompLabs/benchtop-branding) and [benchtop-linux-notebook](https://github.com/pauldmartinphd/benchtop-linux-notebook). OBS packages without a git repository (OpenRGB, nmap, health-checker) are cited by revision.
 
