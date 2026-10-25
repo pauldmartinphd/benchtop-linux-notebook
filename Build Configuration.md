@@ -135,3 +135,21 @@ The image resolves cleanly against `openSUSE:Factory/snapshot` and builds. Remai
 - Kernel lockdown: openSUSE raises integrity lockdown under Secure Boot (`CONFIG_LOCK_DOWN_IN_EFI_SECURE_BOOT`, see Hibernation above), which blocks `/dev/mem`, `/dev/port` and `ioperm`/`iopl`. The internal programmer needs those, so on the current image flashrom cannot reach the onboard flash. Building the kernel without that trigger, which hibernation needs anyway, restores the access; `CONFIG_DEVMEM` and `CONFIG_DEVPORT` are already on.
 - The spi-intel driver: `CONFIG_SPI_INTEL_PCI=m` binds the PCH flash controller at `00:1f.5` and routes flashrom through the kernel MTD device, which drops flash-descriptor regions, protected-range handling and write-protection control; with `CONFIG_IO_STRICT_DEVMEM=y` its MMIO is also closed to `/dev/mem`. Keep the module from auto-binding (a modprobe blacklist, in [Drivers and Firmware](System%20Core/Drivers%20and%20Firmware.md#firmware-flashing-flashrom)), or unbind it before flashing.
 - `CONFIG_STRICT_DEVMEM=y` is on, but it still allows device (non-RAM) memory through `/dev/mem`, so it is not itself the blocker and the old `iomem=relaxed` workaround is not needed.
+
+### Installer
+
+The image is its own installer. tik, Aeon's installer, copies the built image to the target disk with systemd-repart, encrypts the root as it writes it, and enrolls the TPM and a recovery key. A TCBL tik module offers the optional package sets (admin, languages) during the installation. Storage is limited to one whole disk.
+
+#TODO — Revisit Agama
+
+- Agama, SUSE's installer for SLES 16 and Leap 16, was considered on October 25 and not adopted for now. A TCBL product definition would list the optional patterns as `user_patterns`, which Agama shows as checkboxes on its software page, in place of the TCBL tik modules. It also offers LVM, reuse of existing MD RAID, LUKS2 with TPM unlocking, unattended installation from a JSON profile, and installation from a browser on another machine.
+- Against it, for now: Agama installs packages from repositories instead of copying the tested image, so each system is assembled at install time, and an offline install needs a package repository on the media. `config.sh` runs only in the KIWI image build, so its system configuration (os-release branding, snapper, services, keys, kernel command line) would have to move into packages or Agama post-install scripts. TCBL would maintain a branched Agama live image and its own product definition across Agama releases, whose formats have changed. No immutable desktop ships with Agama: Kalpa has a product definition, but its maintainer does not support installing it that way, and Aeon uses tik. Agama is not yet Tumbleweed's installer; Agama 25 (October 2026) gives no date.
+- Revisit when Agama is Tumbleweed's installer and has multi-device Btrfs (`btrfsRaids`, planned and not implemented), ideally with RAID creation in its interface. Check which PCRs Agama seals to on systemd-boot; tik seals to 4, 5, 7 and 9.
+- Whatever the installer: move the system configuration from `config.sh` into packages. Changes to `config.sh` never reach installed systems, while package changes do. This is also most of the work a switch to Agama would need.
+
+#TODO — RAID at installation
+
+- Btrfs RAID1 for the root: no openSUSE installer creates multi-device Btrfs. Agama creates MD RAID 0/1/5/6/10 from a profile but not from its interface, which only reuses existing arrays, and the EFI system partition cannot be on the array.
+- RAIDZ for /home or data: no openSUSE installer supports ZFS, and openSUSE does not distribute it; it is built only in the OBS `filesystems` project. Shipping the ZFS kernel module in the image or repo-tcbl would redistribute a CDDL module built against the GPL kernel, which is disputed, so it is out under the redistribution rule. A user can add the `filesystems` repository themselves; with Secure Boot that probably needs that project's key enrolled (not verified).
+- Btrfs RAID5/6 is not an alternative for data; the Btrfs documentation says not to use it in production.
+- For data arrays now: Cockpit, in the admin pattern, creates MD RAID from its storage page after installation.
