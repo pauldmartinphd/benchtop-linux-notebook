@@ -6,6 +6,20 @@ Days through October 6 are reconstructed from the commit histories of the build 
 
 Commit hashes refer to these repositories: [benchtop-settings](https://github.com/TechnicompLabs/benchtop-settings), [benchtop-patterns](https://github.com/TechnicompLabs/benchtop-patterns), [benchtop-image](https://github.com/TechnicompLabs/benchtop-image), [benchtop-branding](https://github.com/TechnicompLabs/benchtop-branding) and [benchtop-linux-notebook](https://github.com/pauldmartinphd/benchtop-linux-notebook). OBS packages without a git repository (OpenRGB, nmap, health-checker) are cited by revision.
 
+## Before September 3
+
+There is no daily record before the notes were imported. This background comes from a design summary in the October 25 claude.ai data export (last updated September 15), and from the status note in the NixOS-Based Distro Build Plan. It is a summary, not a log, and parts of it were superseded later.
+
+- The project: a Linux distribution under Technicomp Labs, intended for public distribution, with an immutable core from a minimal, well-tested base.
+- Bases evaluated: NixOS Unstable against openSUSE Aeon/MicroOS, judged on the quality of upstream integration testing and the likelihood of package breakage. A concern about MicroOS snapshots (created but not marked bootable after extended inactivity) was recorded as resolved.
+- August 15 decision: "Aeon now, NixOS later". v1 ships as an Aeon derivative, and the NixOS plan becomes the long-term target. The base later became Slowroll (September 4) and then Tumbleweed (September 7), and the reasons for rejecting NixOS were committed on October 21.
+- Kernel: an LTS kernel adopted 3 to 6 months after its LTS designation and updated about once a year.
+- GNOME: n−1 (old stable), updated twice a year.
+- Applications: Flatpak and AppImage for GUI applications. Nix for user packages outside the immutable core was later replaced by Homebrew.
+- Storage: Btrfs, with home on a separate subvolume for snapshots.
+
+## Days
+
 | Date | Work |
 |---|---|
 | [2026-09-03](2026-09-03.md) | Design notes imported |
