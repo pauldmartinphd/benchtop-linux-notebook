@@ -198,9 +198,7 @@ Only root and the members of systemd-journal read the whole system journal.  Ups
 OpenSUSE's kernel builds the UEFI backend of pstore switched off.  At an oops or panic the kernel writes the end of its log into UEFI variables, and at the next boot systemd-pstore moves it to /var/lib/systemd/pstore.  To test on a spare machine: `echo c | sudo tee /proc/sysrq-trigger`, then check /var/lib/systemd/pstore after the reboot
 
 ### Hardware Monitoring
-smartd is on out of the box: OpenSUSE's 95-default-SUSE.preset enables smartd.service, which watches every disk (DEVICESCAN).  rasdaemon is installed but off: no preset enables it, so OpenSUSE's 99-default-disable.preset turns it off
-
-#TODO — Enable rasdaemon in 85-tcbl.preset, so that it records memory and machine-check errors from the first boot
+smartd is on out of the box: OpenSUSE's 95-default-SUSE.preset enables smartd.service, which watches every disk (DEVICESCAN).  rasdaemon is on from the first boot: 85-tcbl.preset enables rasdaemon.service, which OpenSUSE's presets leave off.  It records machine-check exceptions, PCIe AER, memory (EDAC) and disk errors in /var/lib/rasdaemon, and `ras-mc-ctl --summary` and `ras-mc-ctl --errors` read them.  Memory errors are reported only on machines with ECC memory; machine checks and PCIe errors are reported on all of them
 
 ### Performance Monitoring Tools
 
