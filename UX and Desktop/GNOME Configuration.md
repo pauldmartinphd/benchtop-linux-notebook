@@ -17,11 +17,11 @@ Apps should dismiss outdated notifications.
 * Applications Overview Tooltip (applications-overview-tooltip@RaphaelRochet)
 * Vertical App Grid (vertical-app-grid)
 
-Terminal programs don't get launchers in the app grid.  rpm skips the launchers of htop, nvtop, atop and amdgpu_top's terminal interface:
+Terminal programs don't get launchers in the app grid.  rpm skips the launchers of htop, nvtop and atop, both of amdgpu_top's, and Racket's DrRacket and Slideshow.  The programs stay installed; `amdgpu_top --gui`, `drracket` and `slideshow` still start from a terminal:
 
 ##### /usr/lib/rpm/macros.d/macros.tcbl-excludes
 
-    %_netsharedpath /usr/share/applications/htop.desktop:/usr/share/applications/nvtop.desktop:/usr/share/applications/atop.desktop:/usr/share/applications/amdgpu_top-tui.desktop
+    %_netsharedpath /usr/share/applications/htop.desktop:/usr/share/applications/nvtop.desktop:/usr/share/applications/atop.desktop:/usr/share/applications/amdgpu_top-tui.desktop:/usr/share/applications/amdgpu_top.desktop:/usr/share/applications/drracket.desktop:/usr/share/applications/slideshow.desktop
 
 ### Search
 

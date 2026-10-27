@@ -138,7 +138,14 @@ The image resolves cleanly against `openSUSE:Factory/snapshot` and builds. Remai
 
 ### Installer
 
-The image is its own installer. tik, Aeon's installer, copies the built image to the target disk with systemd-repart, encrypts the root as it writes it, and enrolls the TPM and a recovery key. A TCBL tik module offers the optional package sets (admin, languages) during the installation. Storage is limited to one whole disk.
+The image is its own installer. tik, Aeon's installer, copies the built image to the target disk with systemd-repart, encrypts the root as it writes it, and enrolls the TPM and a recovery key. TCBL tik modules offer the optional package sets (admin, languages) during the installation and ask for the host name. Storage is limited to one whole disk.
+
+TCBL changes to the installation, all in `config.sh`:
+
+- Discard. systemd-repart's generated fstab puts a plain `discard` on every Btrfs entry, which is synchronous discard ([systemd issue 38829](https://github.com/systemd/systemd/issues/38829)); on the first installed test system it made the desktop stall, with services timing out and crashing. Each `MountPoint=` in `repart.d/50-root.conf` ends in `discard=async`, which Btrfs applies after repart's `discard`, as the issue suggests. With `--empty=force`, repart discards the whole disk and still has mkfs.btrfs discard the new root again (its discard-only-once check, systemd 260, counts only per-partition discards); the copy step sets `SYSTEMD_REPART_MKFS_OPTIONS_BTRFS=--nodiscard`, which is systemd-repart's documented way to pass options to mkfs.btrfs. Aeon uses the same tik, the same `50-root.conf` and the same systemd, so its installs probably get the same fstab; not confirmed on an Aeon system.
+- Progress. A window follows tik's log for the whole installation, and the copy shows a percentage, the amount copied and the time taken, from the bytes mkfs.btrfs has read against the copy's size, which `config.sh` measures when the image is built. Upstream showed only "Deploying OS Image" for the whole copy.
+- The live session. Its zypper and man caches and its journal are not copied (`ExcludeFiles=`), and its log files are removed from the installed system; accounts made with "Create User" and their homes are kept.
+- SELinux. The copy carries the USB's labels, including what the live session created, and the optional sets are installed with the USB's policy loaded. The installer creates `/etc/selinux/.autorelabel`, so openSUSE's selinux-autorelabel (required by microos-tools) relabels the root snapshot, `/etc` and `/var` in the initrd at the first boot and the other file systems before `local-fs.target`. On the first installed test system, `/var/log/tuned` had the wrong type and tuned-ppd could not start.
 
 #TODO — Revisit Agama
 
@@ -161,3 +168,14 @@ The image is its own installer. tik, Aeon's installer, copies the built image to
 - Kernel support: OpenZFS supports a range of kernel versions, and a kernel newer than it supports leaves the KMP unbuildable. Building in the same project shows that before anything is published, and the LTS kernel makes it rare.
 - Which pattern carries it: an optional set offered in the installer, so it is installed only where wanted.
 - Pools, including a RAIDZ /home, are created after installation with `zpool`; no installer creates them, and Cockpit has no ZFS support of its own.
+
+#TODO — Maybe: a passphrase and a recovery-key check in the installer
+
+- This records an idea, not a decision. In TPM mode tik generates a recovery key, shows it once and asks for nothing else; it asks for a passphrase only when it cannot use the TPM.
+- A TCBL post-module could ask for a passphrase in TPM mode as well, entered twice, and add it with tik's temporary key file, which tik removes only after every post module has run. It could also have part of the recovery key typed back before continuing, so the dialog cannot be dismissed without recording the key. Either could be proposed to tik instead.
+- On an installed system: `sdbootutil enroll --method=password --ask-pw` adds a passphrase, and `sdbootutil unenroll --method=recovery-key` followed by `sdbootutil enroll --method=recovery-key` replaces the recovery key. sdbootutil unlocks through the TPM to authorize both.
+
+#TODO — Upstream reports after the next installation confirms the fixes
+
+- systemd: add this case to issue 38829; a new issue for mkfs.btrfs discarding again after `--empty=force` has discarded the whole disk.
+- Aeon: the same `50-root.conf`, with a check of an Aeon system's fstab first.

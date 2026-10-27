@@ -44,4 +44,6 @@ There is no daily record before the notes were imported. This background comes f
 | [2026-10-19](2026-10-19.md) | kmscon considered |
 | [2026-10-21](2026-10-21.md) | Snapshot gate reverted; Tumbleweed repositories added; notebook renamed |
 | [2026-10-22](2026-10-22.md) | JACK documented |
-| [2026-10-25](2026-10-25.md) | Hardware rules from other projects; Homebrew per user; rasdaemon |
+| [2026-10-25](2026-10-25.md) | Hardware rules from other projects; Homebrew per user; rasdaemon; install test |
+| [2026-10-26](2026-10-26.md) | Synchronous discard and SELinux labels on the installed system |
+| [2026-10-27](2026-10-27.md) | Installer fixes: discard, progress, host name, live-session cleanup, SELinux relabel; GUI launchers of Racket and amdgpu_top hidden |

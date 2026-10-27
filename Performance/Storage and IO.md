@@ -93,6 +93,8 @@ Note: libahci is a module in the OpenSUSE kernel, so this goes in modprobe.d ins
 
     sudo systemctl enable --now fstrim.timer
 
+Installed systems mount Btrfs with `discard=async`, the kernel's default for Btrfs since 6.2 on devices that support discard. systemd-repart's generated fstab puts a synchronous `discard` on every entry, so the installer's repart definition adds `discard=async` after it (see the Installer section of [Build Configuration](../Build%20Configuration.md#installer)). Synchronous discard trims every freed extent at once; the Btrfs documentation warns that it can have a severe performance hit, and on the first installed test system it did.
+
 Note: Many USB-attached SSDs support TRIM/UNMAP via UAS (USB Attached SCSI). Ensure the device is detected as UAS rather than BOT (Bulk-Only Transport):
 
     lsusb -t   # Check for "Driver=uas"
