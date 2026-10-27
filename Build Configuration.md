@@ -150,6 +150,14 @@ The image is its own installer. tik, Aeon's installer, copies the built image to
 #TODO — RAID at installation
 
 - Btrfs RAID1 for the root: no openSUSE installer creates multi-device Btrfs. Agama creates MD RAID 0/1/5/6/10 from a profile but not from its interface, which only reuses existing arrays, and the EFI system partition cannot be on the array.
-- RAIDZ for /home or data: no openSUSE installer supports ZFS, and openSUSE does not distribute it; it is built only in the OBS `filesystems` project. Shipping the ZFS kernel module in the image or repo-tcbl would redistribute a CDDL module built against the GPL kernel, which is disputed, so it is out under the redistribution rule. A user can add the `filesystems` repository themselves; with Secure Boot that probably needs that project's key enrolled (not verified).
+- RAIDZ for /home or data: no openSUSE installer supports ZFS. openSUSE leaves it out of the distribution, but builds and publishes it in the OBS `filesystems` project: `zfs`, `zfs-kmp-default`, `zfs-kmp-longterm`, and `zfs-ueficert`, which enrolls that project's Secure Boot certificate through MOK. ZFS's license (CDDL) permits redistribution. What is disputed is distributing the kernel module built against the GPL kernel: Canonical ships it prebuilt, the Software Freedom Conservancy and the FSF hold that it violates the GPL, and Debian ships only the source, built on the user's machine. Decided October 25: TCBL ships ZFS in repo-tcbl, as Ubuntu has for years. Pools are created after installation; see ZFS in repo-tcbl below.
 - Btrfs RAID5/6 is not an alternative for data; the Btrfs documentation says not to use it in production.
 - For data arrays now: Cockpit, in the admin pattern, creates MD RAID from its storage page after installation.
+
+#TODO — ZFS in repo-tcbl
+
+- Build `zfs` in home:technicomp:benchtop, linked from the `filesystems` project as nmap is from openSUSE:Factory:NonFree, so that the KMP is built against the kernel the image ships (and kernel-lts once it replaces kernel-default) rather than whatever the `filesystems` repository last built against.
+- Secure Boot: OBS signs the module with the home:technicomp key, so each machine enrolls that certificate once through MOK, the TCBL counterpart of `zfs-ueficert`. The custom kernel needs TCBL's key enrolled anyway, so one enrollment can cover both.
+- Kernel support: OpenZFS supports a range of kernel versions, and a kernel newer than it supports leaves the KMP unbuildable. Building in the same project shows that before anything is published, and the LTS kernel makes it rare.
+- Which pattern carries it: an optional set offered in the installer, so it is installed only where wanted.
+- Pools, including a RAIDZ /home, are created after installation with `zpool`; no installer creates them, and Cockpit has no ZFS support of its own.
