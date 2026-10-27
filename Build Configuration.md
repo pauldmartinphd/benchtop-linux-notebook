@@ -68,6 +68,10 @@ A single webhook is added under TechnicompLabs -> Settings -> Webhooks, using th
 - Secret: `<secret>`
 - Event: push
 
+The GitHub token expires, and when it does, pushes stop reaching the Build Service with no error shown on GitHub. The first one, a classic token named "OBS Workflow", expired on October 24, 2026, and none of the pushes from October 25 to 27 synced. To renew it: create a new classic token with only the `repo:status` scope, create a new workflow token with it (above), put the new id and secret into the webhook, then delete the old workflow token (`osc token --delete <id>`) and the expired GitHub token. Neither token is stored in any repository. Until the webhook works again, `osc service remoterun` (below) syncs a package by hand.
+
+#TODO — Record the new GitHub token's expiry date here and renew it before then.
+
 Each repository contains a `.obs/workflows.yml` naming its own project and package. The `trigger_services` step makes the Build Service retrieve the pushed commit before it builds; `rebuild_package` would only rebuild the source it already holds:
 
 ```yaml
