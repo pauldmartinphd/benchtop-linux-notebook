@@ -47,3 +47,4 @@ There is no daily record before the notes were imported. This background comes f
 | [2026-10-25](2026-10-25.md) | Hardware rules from other projects; Homebrew per user; rasdaemon; install test |
 | [2026-10-26](2026-10-26.md) | Synchronous discard and SELinux labels on the installed system |
 | [2026-10-27](2026-10-27.md) | Installer fixes: discard, progress, host name, live-session cleanup, SELinux relabel; GUI launchers of Racket and amdgpu_top hidden |
+| [2026-10-28](2026-10-28.md) | Notebook licensed CC BY-SA 4.0 |

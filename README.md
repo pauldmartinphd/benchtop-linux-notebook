@@ -36,4 +36,10 @@ Repeated source excerpts have been collected in the imported-notes archive so th
 
 ## Status and license
 
-These are pre-release working notes. The separate vulnerability-divergence research plan is intentionally excluded while unpublished. No license has been declared; treat the contents as all rights reserved until a license is added.
+These are pre-release working notes. The separate vulnerability-divergence research plan is intentionally excluded while unpublished.
+
+Copyright © 2026 Paul D. Martin, Ph.D. The notes are licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/) (CC BY-SA 4.0); the full text is in `LICENSE`. You may quote, share and adapt them, in whole or in part, provided you credit them, link to the license, say what you changed, and release adaptations under the same license. Credit them as:
+
+> Paul D. Martin, Ph.D., *Technicomp Benchtop Linux lab notebook*, https://github.com/pauldmartinphd/benchtop-linux-notebook, licensed under CC BY-SA 4.0
+
+The license covers the notes' own text. Material quoted from other sources, such as excerpts of documentation and the passages in the imported-notes archive whose authorship the history does not establish, remains under its owners' terms. Technicomp, Technicomp Labs, the Technicomp Labs logo and its brain-and-globe mark are trademarks of Technicomp Labs; the license grants no rights in them.
