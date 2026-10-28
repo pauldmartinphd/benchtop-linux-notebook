@@ -74,6 +74,14 @@ https://github.com/xapp-project/fingwit
 * When moving a directory containing a file the user lacks permissions for, half the directory gets moved before the error, leading to an inconsistent state. Moves should verify 100% success before any files are deleted.
 * When copying or moving files, copy stops on first error. Copy should continue while error dialog is displayed.
 
+#### My Computer view (idea)
+
+This records an idea, not a decision.  [nautilus-my-computer](https://github.com/yannmasoch/nautilus-my-computer) (MIT, Python) adds a page that lists the drives with usage bars, sidebar options, and a beta column view with a preview column ([OMG! Ubuntu](https://www.omgubuntu.co.uk/2026/10/nautilus-my-computer-view)).  It is not an extension through a public API: Nautilus no longer has one for custom views, so it injects itself into Nautilus's widget tree at runtime and depends on internal structures that can change between releases.  A Nautilus update can break it, which is at odds with relying on upstream interfaces.  Its author tests it with GNOME Files 50 and on Tumbleweed, and packages it on OBS.
+
+The fit is a Nautilus Flatpak built by TCBL: the add-on would be built into it and tested against that exact Nautilus version, so an update cannot break it unseen, and Sushi, the previewer that Nautilus calls over D-Bus, would go into the same Flatpak.  Today Nautilus and Sushi are RPMs in the base pattern.
+
+#TODO — Decide whether to build Nautilus as a Flatpak, and check first what a sandboxed Nautilus loses: access to host file systems and gvfs mounts, the trash, thumbnailers, extensions installed on the host (GSConnect's), and Open in Terminal.
+
 ### Shell
 
 * When an application inhibits sleep or reboot there should be a notification.
