@@ -33,6 +33,24 @@ tc-benchtop-settings carries all of game-devices-udev's rules, installed as `71-
 * https://codeberg.org/fabiscafe/game-devices-udev
 * https://github.com/ublue-os/packages/tree/main/packages/ublue-os-udev-rules/src/udev-rules.d
 
+## Easy Anti-Cheat v2
+
+Epic's Easy Anti-Cheat v2 for Linux, which Fortnite on Linux will use, has the requirements below. Epic asks distributions to contact it about supporting them, and suggests a separate boot entry with these settings for protected games. No release date was given (October 2026). Sources: [OMG! Ubuntu](https://www.omgubuntu.co.uk/2026/10/epic-confirm-fortnite-linux), [Epic's EAC v2 announcement](https://onlineservices.epicgames.com/news/introducing-easy-anti-cheat-linux-v2) (not read directly).
+
+| Requirement | TCBL |
+|---|---|
+| Secure Boot on | Supported |
+| TPM 2.0 present | Depends on the machine; tik uses it when present |
+| IOMMU enabled in the firmware | A firmware setting on each machine |
+| BPF LSM loaded | openSUSE builds it in and lists `bpf` in `CONFIG_LSM`. TCBL's `security=selinux` is believed not to turn it off; not checked on an installed system |
+| kexec disabled | openSUSE builds kexec in (`CONFIG_KEXEC=y`); under Secure Boot only signed images load. Whether Epic counts that as disabled is not known. `kernel.kexec_load_disabled=1` turns it off until the next boot |
+| Kernel signed with a well-known key | openSUSE's kernel-default is signed with openSUSE's key; whether Epic accepts it is not known (the article names Canonical's). The planned TCBL kernel, signed with TCBL's own key, probably would not qualify |
+| Added modules signed by a reputable party | openSUSE's modules are signed with openSUSE's key. ZFS from repo-tcbl is signed with the home:technicomp key, so a system using it probably fails this, and /home on ZFS would need ZFS in the gaming entry too |
+
+The last two rows are inferences from the requirements as reported, not from Epic's checks.
+
+#TODO — Easy Anti-Cheat: contact Epic as a distribution; check `cat /sys/kernel/security/lsm` on an installed system; decide on `kernel.kexec_load_disabled=1`, on every boot or only in the gaming entry; plan the gaming entry (openSUSE's kernel-default beside the TCBL kernel, with openSUSE-signed modules only) and how it works with ZFS.
+
 ## Other experiments
 
 The [future-ideas note](Future%20Ideas.md) holds the additional tuning daemons, BOLT workflow, and FEX-Emu evaluation. These are not part of the gaming-session configuration above.

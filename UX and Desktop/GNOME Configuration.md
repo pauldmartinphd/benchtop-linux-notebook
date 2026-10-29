@@ -117,6 +117,12 @@ The fit is a Nautilus Flatpak built by TCBL: the add-on would be built into it a
 
 ## Long Term Improvements
 
+### AI launcher (tracking)
+
+Canonical's Didier Roche-Tolomelli published `warty-prototype`, a snap its store listing calls a "design-discussion prototype of the next Ubuntu launcher" (October 2026).  It is a scripted mockup of a launcher that works with an on-device model; no model runs.  It is a separate app opened from the top panel, not a GNOME Shell extension.  No source repository or license is given, and Canonical has not committed to shipping it ([OMG! Ubuntu](https://www.omgubuntu.co.uk/2026/10/ubuntu-ai-launcher-prototype)).
+
+#TODO — Follow it: whether it becomes a working launcher, whether the model runs on the device, whether it is an app or a Shell extension, and under what license.  A Snap-only release would not reach TCBL; what matters is the design and any code released under a license TCBL can ship.
+
 ### Text Selection Right Click Options
 
 * Define
