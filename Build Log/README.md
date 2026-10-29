@@ -48,3 +48,4 @@ There is no daily record before the notes were imported. This background comes f
 | [2026-10-26](2026-10-26.md) | Synchronous discard and SELinux labels on the installed system |
 | [2026-10-27](2026-10-27.md) | Installer fixes: discard, progress, host name, live-session cleanup, SELinux relabel; GUI launchers of Racket and amdgpu_top hidden |
 | [2026-10-28](2026-10-28.md) | Notebook licensed CC BY-SA 4.0; Agama as the eventual installer; Easy Anti-Cheat requirements; AI launcher and Emacs text keys noted |
+| [2026-10-29](2026-10-29.md) | First-boot checks confirmed: wireless domain, SELinux, controllers, Homebrew |
