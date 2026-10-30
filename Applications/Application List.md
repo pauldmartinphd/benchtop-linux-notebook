@@ -88,6 +88,8 @@ Working selections and applications to evaluate for Benchtop. This is not a mani
 * VSCode
 * virt-manager
 * [Bustle](https://apps.gnome.org/Bustle/) — D-Bus Visualization
+* [Meld](https://meldmerge.org/) — visual diff and merge for files, folders and version control (GNOME; on Flathub as org.gnome.meld)
+* An open-source alternative to DataGrip, JetBrains' database IDE, which is not open source. Candidates to evaluate: DBeaver Community, Beekeeper Studio Community Edition. VERIFY their licenses and Flathub packages
 
 ## Security
 

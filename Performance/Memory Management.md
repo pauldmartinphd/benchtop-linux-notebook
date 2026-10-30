@@ -72,9 +72,21 @@ Recorded settings for systemd-zram-service:
     # Higher values encourage the kernel to be more eager to move pages to swap.
     SWAPPINESS=180
 
-These values describe what TCBL gets, but systemd-zram-service reads no settings file, so they are not settings it takes. Its `zramswapon` script fixes them: one device, zram0, the size of MemTotal, compressed with zstd and switched on at swap priority 100. It leaves `vm.swappiness` alone; the 180 comes from `90-tcbl-vm.conf` in tc-benchtop-settings. The image enables `zramswap.service` in `config.sh`, so the command above is not needed on an installed system (checked against systemd-zram-service 0.2.1, October 25).
+These values describe what TCBL gets, but systemd-zram-service reads no settings file, so they are not settings it takes. Its `zramswapon` script fixes them: one device, zram0, the size of MemTotal, compressed with zstd and switched on at swap priority 100. It leaves `vm.swappiness` alone; the 180 comes from `90-tcbl-vm.conf` in tc-benchtop-settings. tc-benchtop-settings' presets enable `zramswap.service` (until October 30, the image's `config.sh` did), so the command above is not needed on an installed system (checked against systemd-zram-service 0.2.1, October 25).
 
 CachyOS-Settings sets `vm.swappiness` to 150 when zram0 starts and switches zswap off at the same time (`30-zram.rules`, compared October 25). It is not adopted, because it would override the 180 above. Its reason for switching zswap off with zram, that zswap can keep pages from reaching zram and from zramctl's counts, is input for the zswap question.
+
+### zswap instead of zram (idea)
+
+This records an idea, not a decision.
+
+zswap is a compressed cache in front of a swap device: pages on their way to swap are compressed in RAM, and when its pool is full (`max_pool_percent`, 20% of RAM by default) the oldest are written out to the swap device. zram is a compressed swap device in RAM with nothing behind it. So zram never writes to the disk but can hold no more than fits in RAM, while zswap lets cold pages, including tmpfs pages from `/tmp`, go to disk.
+
+openSUSE's kernel builds zswap in, switched off (`CONFIG_ZSWAP=y`, `CONFIG_ZSWAP_DEFAULT_ON` not set, lzo by default, proactive writeback of cold pages off). It can be switched on at run time through `/sys/module/zswap/parameters/`, so without the kernel command line.
+
+zswap needs a swap device on disk. On TCBL that means a swap file in its own Btrfs subvolume, since Btrfs only swaps to a file that is not copy-on-write, not compressed and not in a snapshotted subvolume. That is a change to the disk layout (tik's `repart.d` and the Agama product), and the same swap file the hibernation TODO below needs. `vm.swappiness = 180` assumes zram and would have to be revisited.
+
+#TODO — Evaluate zswap with a disk swap file together with hibernation: memory use under load, writes to the SSD, and how it compares with zram alone and with zram plus a swap file.
 
 ### ZRAM Hibernate
 
