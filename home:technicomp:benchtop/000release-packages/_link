@@ -1,0 +1,5 @@
+<link project="openSUSE:Factory" package="000release-packages">
+  <patches>
+    <apply name="tcbl-os-release.diff"/>
+  </patches>
+</link>

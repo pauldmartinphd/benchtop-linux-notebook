@@ -1,0 +1,6 @@
+<directory name="000release-packages" rev="2" vrev="2" srcmd5="1e06963c3ae33eb5b3b81b11600df755">
+  <linkinfo project="openSUSE:Factory" package="000release-packages" srcmd5="34d05d68aa081374405b9be9bd215bc1" xsrcmd5="c6cb6b92bb64cf949640516dfc7a3158" lsrcmd5="1e06963c3ae33eb5b3b81b11600df755" />
+  <entry name="_link" md5="61680ea6369566ed1f4e08e3e3027f21" size="138" mtime="1793361162" />
+  <entry name="_multibuild" md5="a66eeebbfccf8d03bfe0a8762f0e4a29" size="63" mtime="1793361162" />
+  <entry name="tcbl-os-release.diff" md5="b0674050ddf904566ddc6a9a8bc3a12a" size="665" mtime="1793361163" />
+</directory>

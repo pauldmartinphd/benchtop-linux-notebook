@@ -1,0 +1,17 @@
+--- openSUSE-release.spec.orig
++++ openSUSE-release.spec
+@@ -538,12 +538,12 @@
+ # note: VERSION is an optional field and has no meaning other than informative on a rolling distro
+ # We do thus not add it to the os-release file
+ cat > %{buildroot}%{_prefix}/lib/os-release <<EOF
+-NAME="openSUSE Tumbleweed"
++NAME="Technicomp Benchtop Linux"
+ # VERSION="%{version}%{?betaversion: %{betaversion}}"
+ ID="opensuse-tumbleweed"
+ ID_LIKE="opensuse suse"
+ VERSION_ID="$VERSION_ID"
+-PRETTY_NAME="openSUSE Tumbleweed"
++PRETTY_NAME="Technicomp Benchtop Linux"
+ ANSI_COLOR="0;32"
+ # CPE 2.3 format, boo#1217921
+ CPE_NAME="cpe:2.3:o:opensuse:tumbleweed:%{version}:*:*:*:*:*:*:*"
