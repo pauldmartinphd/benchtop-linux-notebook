@@ -14,4 +14,4 @@ https://github.com/wimpysworld/sidra
 
 The original list named Apple MacBook, Microsoft Surface, ASUS ROG/ProArt, Razer Blade, Lenovo ThinkPad, Dell Precision/Latitude/XPS, HP EliteBook, and HP ZBook. These are evaluation candidates, not a supported-model list. Any selected model must meet the [hardware baseline](README.md#supported-hardware-baseline); the family name alone does not establish CPU architecture or compatibility.
 
-The earlier instruction to disable `/tmp` on tmpfs is superseded: keep tmpfs, with the capacity limit still being evaluated in [Storage and I/O](Performance/Storage%20and%20IO.md).
+The earlier instruction to disable `/tmp` on tmpfs is superseded: keep tmpfs, limited to 20% of RAM; see [Storage and I/O](Performance/Storage%20and%20IO.md).

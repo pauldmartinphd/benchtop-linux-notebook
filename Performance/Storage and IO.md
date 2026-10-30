@@ -1,6 +1,6 @@
 # Storage and I/O
 
-The scheduler and removable-drive writeback rules retain the September 16 corrections. `/tmp` remains on tmpfs; the size limit below is a proposed configuration.
+The scheduler and removable-drive writeback rules retain the September 16 corrections. `/tmp` remains on tmpfs, limited to 20% of RAM and cleaned after 3 days (October 30).
 
 ## I/O scheduler
 
@@ -104,11 +104,13 @@ Note: Some USB-SATA bridges do not pass through TRIM commands. Check with `lsblk
 
 Keep `/tmp` on tmpfs. The earlier scratch proposal to disable it is superseded. tmpfs allocates memory as files are written and releases it when they are removed; the mount’s size limit is a ceiling, not a reservation. Its pages can also be swapped. See the [kernel tmpfs documentation](https://cdn.kernel.org/doc/html/latest/filesystems/tmpfs.html).
 
-The existing 4 GiB example is retained as a proposed cap to test, not a settled default. It permits `/tmp` to grow to 25% of the supported minimum of 16 GB RAM. A smaller cap reduces the maximum temporary-data footprint but makes applications reach the filesystem limit sooner. Test the limit with development and multimedia workloads before selecting it.
+Tumbleweed already mounts `/tmp` as tmpfs: systemd's `tmp.mount` with `size=50%`, `nr_inodes=1m` and per-user quota (each user who logs in may fill 80% of it, since systemd 258). TCBL's root is a read-only snapshot with no `/tmp` subvolume, so `/tmp` cannot simply move to disk. TCBL's only swap is zram, so tmpfs pages that are swapped out still occupy (compressed) memory.
 
-### /etc/fstab — proposed cap
+Decided October 30 (tc-benchtop-settings):
 
-    tmpfs  /tmp  tmpfs  defaults,noatime,size=4G  0  0
+- Size: at most 20% of RAM (`tmp.mount.d/90-tcbl-size.conf`): 3.2 GB on the minimum 16 GB, 6.4 GB on the recommended 32 GB. Desktop use keeps `/tmp` small; what could outgrow it on 16 GB is mostly development work, such as large C/C++ builds with link-time optimization and pip building big Python packages from source (estimates, not measured on TCBL). GNOME's archive manager puts its temporary files wherever there is the most free space, so in practice in the home folder, and GNU sort only spills to `$TMPDIR` when the input exceeds its memory buffer (at least 1/8 of RAM).
+- Cleanup: files in `/tmp` unused for 3 days are removed (openSUSE: 10 days), and in `/var/tmp` after 30 days (systemd's own default; openSUSE removes nothing there) (`tmpfiles.d/90-tcbl-tmp.conf`, applied daily by `systemd-tmpfiles-clean.timer`). Sockets in use are never removed. Each reboot also empties `/tmp`.
+- When a job needs more: `TMPDIR=/var/tmp <command>` (on disk); `sudo mount -o remount,size=50% /tmp` for the current boot; or a drop-in in `/etc/systemd/system/tmp.mount.d/`.
 
 ## Access Times
 
