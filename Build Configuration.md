@@ -15,6 +15,7 @@ The build is composed of four public repositories under github.com/TechnicompLab
 - `benchtop-settings` builds `tc-benchtop-settings`, a configuration package whose files are installed directly from `Source0` onward, without a tarball. It also adds the TCBL package repository (`repo-tcbl`, at priority 90, above the openSUSE repositories) and ships the repository's signing key, which the image build imports. It also carries udev rules and programs copied unchanged from other projects for hardware support, which `upstream.list` records and `scripts/check-upstream` compares with upstream before every push, from a pre-push hook (see the repository's `UPSTREAM.md`), and the `brew` command that installs Homebrew for each user on first use.
 - `benchtop-patterns` builds `patterns-tc-benchtop`, which produces the metapackages `patterns-tc-benchtop-base`, `patterns-tc-benchtop-admin` and `patterns-tc-benchtop-languages`. The image depends on the base metapackage. The other two are optional sets, which the installer offers and installs during the installation, or which can be installed later: remote administration and servers (Cockpit, the Samba and NFS servers, container image and infrastructure tools, database clients), and programming languages.
 - `benchtop-branding` builds `tc-benchtop-branding`, the wallpaper, and `distribution-logos-tc-benchtop`, the Technicomp logos, which take the place of openSUSE's `distribution-logos-openSUSE-Tumbleweed` so that openSUSE's boot splash, login screen and icons show them.
+- `benchtop-installer` builds `tik-config-benchtop`, the configuration and modules of tik, the image's installer, as `tik-config-Aeon` is Aeon's. It requires tik's own modules where TCBL uses them unchanged and carries both encryption modules, the post-install one with one TCBL change. Moved October 30 from the image's `config.sh` and `root/`, files unchanged, since tik remains the installer alongside Agama for a long time.
 - `benchtop-image` builds `tc-benchtop-image`, the kiwi image description. It is an oem, btrfs read-only-snapshot layout derived from Aeon.
 
 Each package is connected to its repository by an scmsync entry in its `_meta`:
@@ -46,10 +47,10 @@ Several capabilities that the package set requires can be satisfied by more than
 Prefer: helm
 Prefer: plymouth-branding-openSUSE
 Prefer: openSUSE-release-appliance
-Prefer: tik-config-generic
+Prefer: tik-config-benchtop
 ```
 
-`helm` (Helm 4) is preferred over `helm3`, the Helm 3 series, which also provides `helm`. `plymouth-branding-openSUSE` selects the openSUSE boot-splash branding. `openSUSE-release-appliance` selects the appliance release flavor; it is an interim choice, and the image identifies as openSUSE Tumbleweed until a dedicated `tc-benchtop-release` package is created. `tik-config-generic` selects tik's generic configuration rather than Aeon's.
+`helm` (Helm 4) is preferred over `helm3`, the Helm 3 series, which also provides `helm`. `plymouth-branding-openSUSE` selects the openSUSE boot-splash branding. `openSUSE-release-appliance` selects the appliance release flavor; it is an interim choice, and the system's name comes from repo-tcbl's `openSUSE-release` (a link to openSUSE's with NAME and PRETTY_NAME changed). `tik-config-benchtop` selects TCBL's installer configuration (repository benchtop-installer) among the packages that provide `tik-config`.
 
 The logos need no preference line, although openSUSE:Factory's own configuration prefers `distribution-logos-openSUSE-Tumbleweed`: the pattern requires `tc-benchtop-branding`, which requires `distribution-logos-tc-benchtop` by name, and the Build Service resolves such single-provider requirements before it makes any choice, so the `distribution-logos` capability is already provided when a choice would arise.
 
@@ -142,7 +143,7 @@ The image resolves cleanly against `openSUSE:Factory/snapshot` and builds. Remai
 
 The image is its own installer. tik, Aeon's installer, copies the built image to the target disk with systemd-repart, encrypts the root as it writes it, and enrolls the TPM and a recovery key. TCBL tik modules offer the optional package sets (admin, languages) during the installation and ask for the host name. Storage is limited to one whole disk.
 
-TCBL changes to the installation, all in `config.sh`:
+TCBL changes to the installation, in `tik-config-benchtop` (until October 30 in `config.sh`):
 
 - Discard. systemd-repart's generated fstab puts a plain `discard` on every Btrfs entry, which is synchronous discard ([systemd issue 38829](https://github.com/systemd/systemd/issues/38829)); on the first installed test system it made the desktop stall, with services timing out and crashing. Each `MountPoint=` in `repart.d/50-root.conf` ends in `discard=async`, which Btrfs applies after repart's `discard`, as the issue suggests. With `--empty=force`, repart discards the whole disk and still has mkfs.btrfs discard the new root again (its discard-only-once check, systemd 260, counts only per-partition discards); the copy step sets `SYSTEMD_REPART_MKFS_OPTIONS_BTRFS=--nodiscard`, which is systemd-repart's documented way to pass options to mkfs.btrfs. Aeon uses the same tik, the same `50-root.conf` and the same systemd, so its installs probably get the same fstab; not confirmed on an Aeon system.
 - Progress. A window follows tik's log for the whole installation, and the copy shows a percentage, the amount copied and the time taken, from the bytes mkfs.btrfs has read against the copy's size, which `config.sh` measures when the image is built. Upstream showed only "Deploying OS Image" for the whole copy.
