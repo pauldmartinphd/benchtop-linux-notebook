@@ -49,4 +49,4 @@ There is no daily record before the notes were imported. This background comes f
 | [2026-10-27](2026-10-27.md) | Installer fixes: discard, progress, host name, live-session cleanup, SELinux relabel; GUI launchers of Racket and amdgpu_top hidden |
 | [2026-10-28](2026-10-28.md) | Notebook licensed CC BY-SA 4.0; Agama as the eventual installer; Easy Anti-Cheat requirements; AI launcher and Emacs text keys noted |
 | [2026-10-29](2026-10-29.md) | First-boot checks confirmed; Arch Wiki gaming tweaks considered |
-| [2026-10-30](2026-10-30.md) | System configuration moved from config.sh into packages |
+| [2026-10-30](2026-10-30.md) | System configuration moved from config.sh into packages; tik's files packaged; /tmp limit; YaST pulled in by an update, conflict added |
