@@ -28,7 +28,7 @@ Lower-spec hardware may work, but it is outside the design and test target. The 
 | Performance | [Kernel](Performance/Kernel%20Tuning.md), [memory](Performance/Memory%20Management.md), [storage](Performance/Storage%20and%20IO.md), [network](Performance/Network%20Tuning.md), [gaming](Performance/Gaming%20Mode.md), [benchmarking](Performance/Benchmarking.md), [future experiments](Performance/Future%20Ideas.md) |
 | Security | [Architecture](Security/Security%20Architecture.md), [analysis tools](Security/Security%20Tools.md) |
 | Networking | [Network services](Networking/Network%20Services.md), [printing and scanning](Networking/Printing.md), [self-hosted services](Networking/Self-Hosted%20Services.md) |
-| Applications | [Application candidates](Applications/Application%20List.md), [terminal and CLI](Applications/Terminal%20and%20CLI.md), [browsers](Applications/Browser%20Configuration.md) |
+| Applications | [Application candidates](Applications/Application%20List.md), [terminal and CLI](Applications/Terminal%20and%20CLI.md), [browsers](Applications/Browser%20Configuration.md), [Paul's personal Flatpak set](Applications/Personal%20Flatpak%20Set.md) |
 | History | [Build log](Build%20Log/README.md), one file per day |
 | Reference | [Upstream reports to file](Upstream%20Reports.md), [research links](Reference/Research%20Links.md), [scratch notes](Scratch.md), [imported source notes](Reference/Imported%20Notes.md) |
 

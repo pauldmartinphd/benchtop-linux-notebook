@@ -78,6 +78,17 @@ Consider merging the phone-integration ("Connect") functionality. GSConnect cove
 
 ### Weather o'Clock
 
+## Also installed in the August 2025 prototype
+
+These extensions were installed on Galactus in August 2025, during the hand-configured openSUSE Aeon prototype, and are not recorded elsewhere in these notes. The list records what was installed, not a Benchtop selection.
+
+* Bluetooth Quick Connect (bluetooth-quick-connect@bjarosze.gmail.com)
+* Dim Background Windows (dim-background-windows@stephane-13.github.com)
+* Reboot to UEFI (reboottouefi@ubaygd.com)
+* Tiling Assistant (tiling-assistant@leleat-on-github)
+* Tray Icons: Reloaded (trayIconsReloaded@selfmade.pl)
+* Vitals (Vitals@CoreCoding.com)
+
 ## Under Consideration
 
 * Caffeine (caffeine@patapon.info)

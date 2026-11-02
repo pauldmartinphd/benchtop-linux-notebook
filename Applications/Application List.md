@@ -2,6 +2,8 @@
 
 Working selections and applications to evaluate for Benchtop. This is not a manifest of installed packages. Feature requests below describe the behavior wanted from an application, not necessarily a feature it already has.
 
+Paul's own Flatpak applications are listed separately in [Personal Flatpak Set](Personal%20Flatpak%20Set.md). That list is not a Benchtop selection.
+
 ## Web
 
 * Brave
