@@ -50,3 +50,5 @@ There is no daily record before the notes were imported. This background comes f
 | [2026-10-28](2026-10-28.md) | Notebook licensed CC BY-SA 4.0; Agama as the eventual installer; Easy Anti-Cheat requirements; AI launcher and Emacs text keys noted |
 | [2026-10-29](2026-10-29.md) | First-boot checks confirmed; Arch Wiki gaming tweaks considered |
 | [2026-10-30](2026-10-30.md) | System configuration moved from config.sh into packages; tik's files packaged; /tmp limit; YaST pulled in by an update, conflict added |
+| [2026-11-01](2026-11-01.md) | crun beside runc |
+| [2026-11-02](2026-11-02.md) | Brain-and-globe mark; installer copies of upstream reduced and checked at build time; upstream reports drafted |
