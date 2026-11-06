@@ -1,6 +1,6 @@
 # Browser Configuration
 
-## Brave (Default Browser)
+## Brave
 
 The selected policy disables Rewards, Wallet, VPN, AI Chat, and Tor, and leaves DNS-over-HTTPS in automatic mode:
 
@@ -17,7 +17,9 @@ The selected policy disables Rewards, Wallet, VPN, AI Chat, and Tor, and leaves 
 
 Note: BraveVPNDisabled is a boolean policy, so it takes `true`, not `1`
 
-## Firefox
+## Firefox (Default Browser)
+
+Decided November 6, 2026: Firefox is TCBL's browser, installed from Flathub for every user (`tcbl-firefox.service`), because it is what most people expect. With no other browser installed, GNOME uses it as the default without further configuration.
 
 ### Fix Scrolling
 
