@@ -118,3 +118,35 @@ What we do now, as a possible approach:
 
 Either would be useful in tik itself; the progress estimate needs the size recorded when the image is built, which the image's build would have to provide.
 ~~~
+
+## 5. openSUSE chrony: `-s` by default sets the clock from the hardware clock as local time
+
+- Where: <https://bugzilla.opensuse.org>, product openSUSE Tumbleweed, package chrony; the change was made by Reinhard Max. Search for a duplicate first.
+- Status: confirmed on the laptop (journal timestamps 5 hours ahead from chronyd's start until its first synchronization, on every boot). chrony behaves as documented; the report is about openSUSE's configuration. TCBL works around it with `rtconutc` and `hwclockfile /etc/adjtime` in `/usr/etc/chrony.d/90-tcbl-rtc.conf` (tc-benchtop-settings).
+
+Title:
+
+~~~
+chrony: default OPTIONS="-s" sets the system clock from a UTC hardware clock as local time
+~~~
+
+Body:
+
+~~~markdown
+Since the change of September 14, 2026 ("Default OPTIONS to "-s" in the chronyd sysconfig to seed the clock from the RTC (or driftfile) at start-up"), chronyd sets the system clock from the hardware clock when it starts.
+
+chrony reads the hardware clock as local time unless `rtconutc` or `hwclockfile` is configured (chrony.conf(5): "chronyd assumes by default that the RTC keeps local time"). openSUSE's chrony.conf has neither, while openSUSE systems keep the hardware clock in UTC (systemd's default; `timedatectl` shows "RTC in local TZ: no", and there is no /etc/adjtime).
+
+Result: on every boot, chronyd sets the clock ahead or behind by the time zone's offset (5 hours in America/New_York), and the clock stays wrong until chronyd's first NTP step. In the meantime, journal entries carry the wrong time, snapper reports "time shift detected" for snapshots taken then, and anything that checks certificates or file ages sees the wrong time.
+
+Suggested fix: add to openSUSE's chrony.conf (or a file in /usr/etc/chrony.d):
+
+```
+rtconutc
+hwclockfile /etc/adjtime
+```
+
+`rtconutc` matches openSUSE's default UTC hardware clock; `hwclockfile` makes chronyd follow /etc/adjtime when it exists, which `timedatectl set-local-rtc 1` writes on computers that also run Windows, and it takes precedence over `rtconutc`.
+
+chrony 4.9, openSUSE Tumbleweed [fill in the snapshot: `cat /etc/os-release`].
+~~~

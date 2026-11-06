@@ -194,4 +194,5 @@ TCBL changes to the installation, in `tik-config-benchtop` (until October 30 in 
 - systemd: mkfs.btrfs discarding again after `--empty=force` has discarded the whole disk; add the install test's result first.
 - yast2-samba-server: `Supplements: (samba and yast2)`.
 - tik: return to the session after a failure instead of powering off; the copy's progress and the installation log.
+- openSUSE chrony: the default `-s` without `rtconutc` or `hwclockfile` sets the clock from a UTC hardware clock as local time (TCBL: `90-tcbl-rtc.conf` in tc-benchtop-settings).
 - Track, without a TCBL report: [systemd issue 38829](https://github.com/systemd/systemd/issues/38829) (repart's fstab `discard`) and pull request 38192, a work in progress. When it is fixed in Tumbleweed's systemd, reconsider the `discard=async` in `50-root.conf`. Aeon (same `50-root.conf`): left to Aeon; no report.
