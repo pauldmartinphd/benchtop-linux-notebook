@@ -208,4 +208,5 @@ TCBL changes to the installation, in `tik-config-benchtop` (until October 30 in 
 - openSUSE chrony: the default `-s` without `rtconutc` or `hwclockfile` sets the clock from a UTC hardware clock as local time (TCBL: `90-tcbl-rtc.conf` in tc-benchtop-settings).
 - tik: put the recovery key in sdbootutil's current keyring entries (`sdbootutil-key`, `sdbootutil-recovery-pin`) instead of the deprecated `sdbootutil`.
 - Optional: Kvantum, a style key that follows the desktop's color scheme (TCBL maintains the patch either way); confirm it on the laptop first.
+- Aeon: patterns-aeon still requires `malcontent-control`, deleted from Factory on October 30.
 - Track, without a TCBL report: [systemd issue 38829](https://github.com/systemd/systemd/issues/38829) (repart's fstab `discard`) and pull request 38192, a work in progress. When it is fixed in Tumbleweed's systemd, reconsider the `discard=async` in `50-root.conf`. Aeon (same `50-root.conf`): left to Aeon; no report.
