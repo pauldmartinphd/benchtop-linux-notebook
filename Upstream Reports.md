@@ -211,3 +211,29 @@ Patch (56 lines, against 1.1.8; it also applies to master): https://github.com/T
 
 I read in #1148 that you consider `kvantum-dark` at odds with Kvantum's flexibility, so before opening a pull request I would like to ask whether you would accept this in some form. If a new key is not welcome, the same behavior could be a setting in `kvantum.kvconfig` (for example `followColorScheme=true` under `[General]`) that applies to the `kvantum` key, or a pair of theme names for light and dark. I can adapt the patch to whichever you prefer.
 ~~~
+
+## 8. patterns-aeon: `Requires: malcontent-control`, deleted from Factory
+
+- Where: the package's development project, `devel:microos:aeon/patterns-aeon` on build.opensuse.org (a submit request that removes the line), or openSUSE Bugzilla. Which of the two Aeon's maintainers prefer has not been checked; search for an existing report first.
+- Status: found November 5, 2026, when TCBL's image (whose base pattern came from Aeon's) had been unresolvable since October 31. TCBL dropped the line (benchtop-patterns `36bc377`). Not checked: whether Aeon's own image builds fail the same way.
+
+Title:
+
+~~~
+patterns-aeon: Requires malcontent-control, which was deleted from Factory
+~~~
+
+Body:
+
+~~~markdown
+`patterns-aeon.spec` still has
+
+```
+# So users can configure Parental controls
+Requires:       malcontent-control
+```
+
+but malcontent was deleted from openSUSE:Factory on October 30, 2026 (request 1385891), and Factory's gnome-control-center 51.1 is built without malcontent (`%bcond_with malcontent`). Nothing in Factory provides `malcontent-control` any more, so anything that requires `patterns-aeon-base` cannot be resolved; a derivative image built on the same pattern has been unresolvable since then with "nothing provides malcontent-control needed by …".
+
+Proposed change: remove the requirement (and the comment above it).
+~~~
