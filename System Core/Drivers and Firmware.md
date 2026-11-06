@@ -129,14 +129,14 @@ tc-benchtop-settings does this automatically, 0.5 seconds after a Thunderbolt or
 
 ##### /usr/lib/udev/rules.d/90-tcbl-thunderbolt-rescan.rules
 
-	ACTION=="add|change", SUBSYSTEM=="thunderbolt", ENV{DEVTYPE}=="thunderbolt_device", ATTR{authorized}=="1", RUN+="/usr/bin/systemctl --no-block start tcbl-pci-rescan.service"
+	ACTION=="add|change", SUBSYSTEM=="thunderbolt", ENV{DEVTYPE}=="thunderbolt_device", ATTR{authorized}=="1", RUN+="/usr/bin/systemctl --no-block start pci-rescan.service"
 
-##### /usr/lib/systemd/system/tcbl-pci-rescan.service
+##### /usr/lib/systemd/system/pci-rescan.service
 
 	ExecStartPre=/usr/bin/sleep 0.5
 	ExecStart=/bin/sh -c 'echo 1 > /sys/bus/pci/rescan'
 
-Note: a kernel patch from Canonical (AceLan Kao, January 2026) takes the same approach, a rescan 300 ms after the tunnel is activated when pciehp has found nothing; it was still under review in February, and the reviewers suspected PCIe runtime power management rather than the tunnel.  The rescan here covers every PCI bus, not only the dock's.  One that finds nothing new changes nothing, so it stays even after a kernel fix.  To turn it off: `systemctl mask tcbl-pci-rescan.service`
+Note: a kernel patch from Canonical (AceLan Kao, January 2026) takes the same approach, a rescan 300 ms after the tunnel is activated when pciehp has found nothing; it was still under review in February, and the reviewers suspected PCIe runtime power management rather than the tunnel.  The rescan here covers every PCI bus, not only the dock's.  One that finds nothing new changes nothing, so it stays even after a kernel fix.  To turn it off: `systemctl mask pci-rescan.service`
 
 The driver is also in the initrd, so that a dock works at the disk prompt (as the ArchWiki advises for Thunderbolt at boot).  openSUSE's dracut builds host-only initrds and does not add it on its own.  Devices that need a PCIe tunnel may still wait for authorization, which boltd gives only after the disk is unlocked; to check on the laptop with the dock's keyboard and display:
 
