@@ -119,6 +119,28 @@ Note: the driver creates /dev/ntsync readable and writable by everyone, so no ud
 See [NTSYNC Kernel Docs](https://docs.kernel.org/userspace-api/ntsync.html)
 See [CachyOS Settings](https://github.com/CachyOS/CachyOS-Settings/blob/master/usr/lib/modules-load.d/ntsync.conf)
 
+## Thunderbolt Dock Enumeration
+
+Devices behind a Thunderbolt or USB4 dock sometimes do not appear when it connects: the PCIe tunnel comes up, but PCIe hotplug (pciehp) misses the devices behind it.  Seen with Paul's dock on the HP ZBook Ultra G1a (Ryzen AI Max+ 395), where a manual PCI rescan brings them up (to confirm on the laptop):
+
+	echo 1 | sudo tee /sys/bus/pci/rescan
+
+tc-benchtop-settings does this automatically, 0.5 seconds after a Thunderbolt or USB4 device is authorized:
+
+##### /usr/lib/udev/rules.d/90-tcbl-thunderbolt-rescan.rules
+
+	ACTION=="add|change", SUBSYSTEM=="thunderbolt", ENV{DEVTYPE}=="thunderbolt_device", ATTR{authorized}=="1", RUN+="/usr/bin/systemctl --no-block start tcbl-pci-rescan.service"
+
+##### /usr/lib/systemd/system/tcbl-pci-rescan.service
+
+	ExecStartPre=/usr/bin/sleep 0.5
+	ExecStart=/bin/sh -c 'echo 1 > /sys/bus/pci/rescan'
+
+Note: a kernel patch from Canonical (AceLan Kao, January 2026) takes the same approach, a rescan 300 ms after the tunnel is activated when pciehp has found nothing; it was still under review in February, and the reviewers suspected PCIe runtime power management rather than the tunnel.  The rescan here covers every PCI bus, not only the dock's.  One that finds nothing new changes nothing, so it stays even after a kernel fix.  To turn it off: `systemctl mask tcbl-pci-rescan.service`
+
+See [delayed-rescan patch v2](https://lkml.iu.edu/2601.2/08135.html)
+See [CachyOS issue 1057](https://github.com/CachyOS/linux-cachyos/issues/1057) (AMD Phoenix: the tunnel's root port in runtime suspend)
+
 ## USB Device Emulation (raw-gadget)
 
 raw-gadget lets userspace emulate USB devices — one you are developing, or a custom-class device — for host-side testing and software proxying.  The `raw_gadget` module is already in the image, along with the configfs and legacy gadget modules (`g_hid`, `g_ether`, `g_mass_storage`, `gadgetfs`, `libcomposite`).  Emulating a device without a USB Device Controller needs `dummy_hcd`, a software controller the stock kernel does not build; the custom kernel adds it (see [Build Configuration](../Build%20Configuration.md#custom-kernel)).
