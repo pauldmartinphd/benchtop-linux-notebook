@@ -25,6 +25,12 @@ The themes below are built from their GitHub upstreams in benchtop-themes (see [
 * https://github.com/ricewind012/discord-gnome-theme
 * https://github.com/birneee/obsidian-adwaita-theme
 
+#TODO — Firefox: the GNOME theme automatically when Adwaita is selected
+
+- Wanted: when the system uses the Adwaita style (adw-gtk3, the default), each user's Firefox (the Flatpak from Flathub, installed by `tcbl-firefox.service`) gets the Firefox GNOME theme (rafaelmardojai/firefox-gnome-theme) exactly as Add Water installs it, and the theme is kept up to date, without Add Water's application being installed.
+- Add Water (Flathub `dev.qwery.AddWater`, GPL-3.0-or-later, <https://github.com/largestgithubuseronearth/addwater>) installs that theme into Firefox profiles, supports the Flatpak Firefox, and updates the theme in the background. How it installs into a profile, and how it updates, has not been read yet.
+- Not decided: how TCBL does this (no solution yet).
+
 ## Yaru Theme
 
 * https://github.com/ubuntu/yaru
