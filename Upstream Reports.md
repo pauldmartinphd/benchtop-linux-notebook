@@ -184,3 +184,30 @@ pkexec keyctl add user sdbootutil-recovery-pin ${key} @u
 
 tik 1.5.1.
 ~~~
+
+## 7. Kvantum: a style key that follows the desktop's color scheme
+
+- Where: <https://github.com/tsujan/Kvantum/issues>, as a question with the patch linked, not as a pull request.
+- Status: optional. TCBL maintains the patch in benchtop-themes (`kvantum/kvantum-auto-color-scheme.patch`) either way. Tested against Qt 6.12 under Xvfb, not yet on GNOME (see [Theming](UX%20and%20Desktop/Theming.md)). Duplicate search done (November 5): no open issue asks for this; closed #1024 (palette colors, declined by design), #978 and #1148 are related. In #1148 tsujan wrote that `kvantum-dark` is at odds with Kvantum's flexibility and that he had wanted to remove it, so the request asks first and offers a configuration setting instead of a key. Before filing: push benchtop-themes, so the link works, and confirm the behavior on the laptop.
+
+Title:
+
+~~~
+Following the desktop's light/dark color scheme in running Qt 6 applications
+~~~
+
+Body:
+
+~~~markdown
+Since Qt 6.5, `QStyleHints::colorScheme()` reports whether the desktop prefers a light or dark scheme, and `QStyleHints::colorSchemeChanged` tells running applications when it changes (on GNOME, Qt's platform theme reads `org.freedesktop.appearance color-scheme` from the desktop portal). At present Kvantum chooses the theme once, at startup, so switching the desktop between light and dark leaves running Qt applications as they were, while GTK applications follow.
+
+We patched this for our distribution (openSUSE-based, GNOME) as a new, opt-in style key, `kvantum-auto`. The existing keys are unchanged:
+
+- At startup, `kvantum-auto` uses the theme's dark variant, found the way `kvantum-dark` finds it, when `colorScheme()` is `Qt::ColorScheme::Dark`, and the theme itself otherwise.
+- When the scheme changes, and only while the style is the application's style, it replaces the application style with a new `kvantum-auto` style (queued, since `QApplication::setStyle()` deletes the old one), so the theme and its settings load as at startup.
+- With Qt 5, which has no color scheme, the key behaves as `kvantum`, so that a global `QT_STYLE_OVERRIDE=kvantum-auto` does not leave Qt 5 applications on Fusion.
+
+Patch (56 lines, against 1.1.8; it also applies to master): https://github.com/TechnicompLabs/benchtop-themes/blob/main/kvantum/kvantum-auto-color-scheme.patch
+
+I read in #1148 that you consider `kvantum-dark` at odds with Kvantum's flexibility, so before opening a pull request I would like to ask whether you would accept this in some form. If a new key is not welcome, the same behavior could be a setting in `kvantum.kvconfig` (for example `followColorScheme=true` under `[General]`) that applies to the `kvantum` key, or a pair of theme names for light and dark. I can adapt the patch to whichever you prefer.
+~~~
