@@ -32,6 +32,19 @@ https://extensions.gnome.org/extension/8640/dynamic-calendar-clocks-and-weather-
 
 Consider combining the desired behavior of Dash to Dock, Dash to Panel, dynamic icons, and Dash2Dock Animated. The list records an integration idea rather than a decision to run all four together.
 
+### Drop to Shell
+https://gitlab.com/gunwald/drop-to-shell
+
+* Replaces the top bar's dropdowns with larger views: Quick Settings as a resizable side pane, the clock as a Today page in the overview
+* drop-to-shell@gunwald.gitlab.com, GNOME 50 and 51, GPL-2.0
+
+### Glean
+https://gitlab.com/gunwald/glean
+
+* Clipboard history (the clipboard and the middle-click selection, kept across locking and restarts) and quick notes; a drawer in the Drop to Shell pane
+* glean@gunwald.gitlab.com, GNOME 50 and 51, GPL-2.0
+* Replaces Pano (November 6, 2026)
+
 ### GTK4 Desktop Icons Next Generation (DING)
 Include but toggle off by default.
 
@@ -46,8 +59,6 @@ Consider merging the phone-integration ("Connect") functionality. GSConnect cove
 
 * Click to Close Overview (replaces click-to-close-overview@l3nn4rt.github.io)
 * Restore Desktop Thumbnails (replaces GNOME 4X UI Improvements)
-
-### Pano (Clipboard Manager)
 
 ### Rounded Window Corners Reborn
 
