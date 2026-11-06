@@ -2,6 +2,8 @@
 
 ## Brave
 
+Not part of TCBL (November 6, 2026); tc-benchtop-settings no longer ships the policy below. For reference: Flathub's Brave (`com.brave.Browser`) does read the host's `/etc/brave/policies`, through `--filesystem=host-etc` and its launcher script.
+
 The selected policy disables Rewards, Wallet, VPN, AI Chat, and Tor, and leaves DNS-over-HTTPS in automatic mode:
 
 ```json
@@ -20,6 +22,11 @@ Note: BraveVPNDisabled is a boolean policy, so it takes `true`, not `1`
 ## Firefox (Default Browser)
 
 Decided November 6, 2026: Firefox is TCBL's browser, installed from Flathub for every user (`tcbl-firefox.service`), because it is what most people expect. With no other browser installed, GNOME uses it as the default without further configuration.
+
+#TODO — Firefox ESR instead of the rapid release
+
+- Wanted: Firefox ESR. Mozilla publishes no ESR Flatpak, and Flathub has none (Mozilla bug 1779150, unconfirmed). Tumbleweed has `firefox-esr` (153.6.0 on November 6) as an rpm, and Mozilla's own zypper repository has one too.
+- Options: the Tumbleweed rpm in the base pattern (an exception to no GUI applications in the pattern; system-wide policies in one host file), or Mozilla's ESR binaries repackaged as a Flatpak in the TCBL Flatpak repository. Paused November 6; until then each user gets Flathub's Firefox.
 
 #TODO — Firefox: preinstalled extensions (an ad blocker such as uBlock Origin)
 
