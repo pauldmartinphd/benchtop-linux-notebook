@@ -150,3 +150,37 @@ hwclockfile /etc/adjtime
 
 chrony 4.9, openSUSE Tumbleweed [fill in the snapshot: `cat /etc/os-release`].
 ~~~
+
+## 6. tik: the recovery key under sdbootutil's current keyring names
+
+- Where: <https://github.com/sysrich/tik/issues>.
+- Status: read in tik 1.5.1's `post/15-encrypt` and sdbootutil's source (main, November 2026); not observed on a machine. Low priority, as TCBL will move to Agama.
+
+Title:
+
+~~~
+15-encrypt: add the recovery key to the keyring as sdbootutil-key and sdbootutil-recovery-pin, not the deprecated sdbootutil
+~~~
+
+Body:
+
+~~~markdown
+`generate_recoveryKey` in `post/15-encrypt` adds the recovery key to root's user keyring as `sdbootutil`:
+
+```
+pkexec keyctl add user sdbootutil ${key} @u
+```
+
+sdbootutil now reads the recovery key from `%u:sdbootutil-key` and the recovery PIN of the TPM2 (pcrlock) policy from `%u:sdbootutil-recovery-pin`. It still reads `%u:sdbootutil`, last and with a deprecation warning, and for the TPM2 enrollment uses it as the recovery PIN, so that the recovery key and the recovery PIN are one secret, as sdbootutil intends.
+
+If sdbootutil stops reading the deprecated name, a new installation's TPM2 enrollment has no recovery PIN source: systemd-pcrlock generates one, and sdbootutil prints it, into tik's log rather than to the user. After a firmware, dbx or shim (SBAT) update changes PCR 7, `sdbootutil update-predictions` cannot re-authorize the policy ("No recovery PIN was available"), and the user has to unenroll and enroll the TPM again with the recovery key.
+
+Request: add the key under the current names, for example:
+
+```
+pkexec keyctl add user sdbootutil-key ${key} @u
+pkexec keyctl add user sdbootutil-recovery-pin ${key} @u
+```
+
+tik 1.5.1.
+~~~

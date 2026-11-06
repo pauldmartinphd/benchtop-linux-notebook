@@ -52,3 +52,6 @@ There is no daily record before the notes were imported. This background comes f
 | [2026-10-30](2026-10-30.md) | System configuration moved from config.sh into packages; tik's files packaged; /tmp limit; YaST pulled in by an update, conflict added |
 | [2026-11-01](2026-11-01.md) | crun beside runc |
 | [2026-11-02](2026-11-02.md) | Brain-and-globe mark; installer copies of upstream reduced and checked at build time; upstream reports drafted |
+| [2026-11-03](2026-11-03.md) | Laptop restarted in suspend and waited at the disk prompt; TPM PCR 7; chrony clock 5 hours ahead |
+| [2026-11-04](2026-11-04.md) | Power at the disk prompt |
+| [2026-11-05](2026-11-05.md) | System76 Scheduler; themes and fonts; disk-prompt power-off; disk password; chrony |

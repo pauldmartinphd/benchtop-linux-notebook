@@ -20,8 +20,8 @@
 
 ## OBS Packages
 
-* system76-scheduler
-* adw-gtk3
+* system76-scheduler (packaged November 5, benchtop-scheduler)
+* adw-gtk3 (packaged November 5, benchtop-themes)
 * pipewire-nonfree-codecs
 * dislocker
 

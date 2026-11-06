@@ -5,7 +5,7 @@ These tools and optimization ideas need evaluation; they are not selected defaul
 ## Performance Tools and Applications
 
 * [GameMode](https://github.com/FeralInteractive/gamemode/) — Feral Interactive's on-demand game optimizer
-* [system76-scheduler](https://github.com/pop-os/system76-scheduler) — Process priority scheduling
+* [system76-scheduler](https://github.com/pop-os/system76-scheduler) — Process priority scheduling. Packaged and on by default since November 5, with Benchtop Focus Priority for the focused window (benchtop-scheduler; see [Build Configuration](../Build%20Configuration.md))
 * [MangoHUD](https://mangohud.com/) — Vulkan/OpenGL overlay for monitoring FPS, temps, etc.
 * [LACT](https://github.com/ilya-zlobintsev/LACT) — Linux GPU Configuration Tool
 * [CPU-X](https://thetumultuousunicornofdarkness.github.io/CPU-X/) — CPU/GPU/motherboard info

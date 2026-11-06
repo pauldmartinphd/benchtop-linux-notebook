@@ -247,6 +247,11 @@ The names below were collected from multiple distributions, including Arch/AUR. 
 ### 5. Envision Settings
 [Reddit](https://www.reddit.com/r/linux/comments/1bh1x80/tweaks_for_the_freetype_font_rendering/) / [GitHub](https://github.com/maximilionus/freetype-envision)
 
+## Ubuntu and Intel One Mono (November 5, 2026)
+
+- openSUSE's `ubuntu-fonts` is the original Ubuntu family (0.83, 2011, with Ubuntu Mono), which the base pattern already requires. Ubuntu Sans and Ubuntu Sans Mono, Ubuntu's fonts since 23.10, are not in openSUSE Factory or M17N:fonts; benchtop-themes builds them from Canonical's GitHub releases (Ubuntu Font Licence 1.0). Each family is two packages that conflict, so that it is never listed twice: the variable fonts (`ubuntu-sans-fonts`, `ubuntu-sans-mono-fonts`, installed by default) and the static TrueType fonts (`ubuntu-sans-static-fonts`, `ubuntu-sans-mono-static-fonts`). The releases' OpenType and web fonts are the same designs again and are left out.
+- Intel One Mono 1.5 (November 4) waits for openSUSE's `intel-one-mono-fonts`, at 1.4.0 in Factory and M17N:fonts; decided November 5. A plain version bump will not build: the release archive was renamed (`intel-one-mono-ttf.zip`), as was its folder, and `OFL.txt` is no longer in it.
+
 ## Open Source Font Stack (Curated)
 
 * Atkinson Hyperlegible (accessibility)
