@@ -13,7 +13,7 @@ GNOME Software is the application manager. Bazaar is not needed. Retain Warehous
 
 Flathub is added to each user's own Flatpak installation at their first login, so apps from Flathub install per user without an administrator password.  Flathub is not configured system-wide (OpenSUSE's flatpak-remote-flathub is left out of the image): with Flathub in both installations, flatpak asks on every install which one to use.  The service runs once for each user, so a user who removes Flathub does not get it back
 
-##### tcbl-flathub.service (user service)
+##### configure-user-flathub.service (user service)
 
     flatpak remote-add --user --if-not-exists flathub /usr/share/tc-benchtop-settings/flathub.flatpakrepo
 

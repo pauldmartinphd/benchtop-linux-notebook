@@ -66,7 +66,7 @@ health-checker rolls back if the first boot after an update fails: TCBL's patche
 
 ### x86-64-v3 Libraries
 
-After an update, install the x86-64-v3 optimized builds of the system libraries (glibc HWCAPS) on CPUs that support them.  tcbl-x86-64-v3.service runs this while the update waits for a restart:
+After an update, install the x86-64-v3 optimized builds of the system libraries (glibc HWCAPS) on CPUs that support them.  x86-64-v3-libraries.service runs this while the update waits for a restart:
 
     transactional-update --continue --non-interactive pkg in --force --recommends patterns-glibc-hwcaps-x86_64_v3
 [Link](https://build.opensuse.org/package/show/openSUSE:Factory/x86_64_v3-branding-Aeon)
@@ -109,7 +109,7 @@ The laptop restarted on November 2 at 22:08 while suspended and waited at the di
 - `kernel.panic` was 5, so the kernel restarts 5 seconds after a crash.  openSUSE's kernel default (`CONFIG_PANIC_TIMEOUT`) is 90, so something else sets 5; not found yet.  On September 24, `panic=0` was tried and dropped ("rely on upstream's restart after a kernel panic"), and tcbl-panic-restart.service, which set 5 seconds, was dropped the same day.  The kernel's panic code can only restart or hang; it has no power-off.
 - The disk did not unlock because PCR 7 no longer matched the TPM policy (it measures the Secure Boot keys, dbx, shim's SBAT level and the MOK list).  The boot of 21:33 that evening already needed the key, so the change came before the reset.  sdbootutil's prediction update then failed, because no recovery PIN was reachable.  The repair is in the recovery-key TODO in [Build Configuration](../Build%20Configuration.md).
 - At the login screen, after a restart that unlocks: logind suspends a laptop with a closed lid once its 30-second startup grace period ends, unless an external monitor or a dock is connected; with the lid open, GNOME suspends after 15 minutes idle (gnome-settings-daemon's defaults; openSUSE changes them only for SLE and Leap).  Read in the sources, not tested.
-- Power-off at the disk prompt (November 5, tc-benchtop-settings, dracut module `95tcbl-lid-poweroff`): in the initrd, once the lid has been closed on battery for 3 minutes without a break, the computer powers off.  With the lid open, on AC power, or without a lid switch, it waits.  The first design, a 5-minute limit in every case, was dropped.  The module adds the lid and AC drivers to the initrd.  Tested with simulated lid and power states and in a test initrd, not yet in a real boot.
+- Power-off at the disk prompt (November 5, tc-benchtop-settings, dracut module `95disk-prompt-lid-poweroff`): in the initrd, once the lid has been closed on battery for 3 minutes without a break, the computer powers off.  With the lid open, on AC power, or without a lid switch, it waits.  The first design, a 5-minute limit in every case, was dropped.  The module adds the lid and AC drivers to the initrd.  Tested with simulated lid and power states and in a test initrd, not yet in a real boot.
 - kdump, to record what crashes in suspend: decided against, November 5.
 
 ## Console renderer idea (kmscon)

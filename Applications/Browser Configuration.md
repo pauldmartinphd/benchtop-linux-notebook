@@ -21,7 +21,7 @@ Note: BraveVPNDisabled is a boolean policy, so it takes `true`, not `1`
 
 ## Firefox (Default Browser)
 
-Decided November 6, 2026: Firefox is TCBL's browser, installed from Flathub for every user (`tcbl-firefox.service`), because it is what most people expect. With no other browser installed, GNOME uses it as the default without further configuration.
+Decided November 6, 2026: Firefox is TCBL's browser, installed from Flathub for every user (`tcbl-default-applications.service`), because it is what most people expect. With no other browser installed, GNOME uses it as the default without further configuration.
 
 #TODO — Firefox ESR instead of the rapid release
 
