@@ -127,7 +127,7 @@ Devices behind a Thunderbolt or USB4 dock sometimes do not appear when it connec
 
 tc-benchtop-settings does this automatically, 0.5 seconds after a Thunderbolt or USB4 device is authorized:
 
-##### /usr/lib/udev/rules.d/90-tcbl-thunderbolt-rescan.rules
+##### /usr/lib/udev/rules.d/90-thunderbolt-pci-rescan.rules
 
 	ACTION=="add|change", SUBSYSTEM=="thunderbolt", ENV{DEVTYPE}=="thunderbolt_device", ATTR{authorized}=="1", RUN+="/usr/bin/systemctl --no-block start pci-rescan.service"
 
@@ -140,7 +140,7 @@ Note: a kernel patch from Canonical (AceLan Kao, January 2026) takes the same ap
 
 The driver is also in the initrd, so that a dock works at the disk prompt (as the ArchWiki advises for Thunderbolt at boot).  openSUSE's dracut builds host-only initrds and does not add it on its own.  Devices that need a PCIe tunnel may still wait for authorization, which boltd gives only after the disk is unlocked; to check on the laptop with the dock's keyboard and display:
 
-##### /usr/lib/dracut/dracut.conf.d/90-tcbl-thunderbolt.conf
+##### /usr/lib/dracut/dracut.conf.d/90-thunderbolt.conf
 
 	add_drivers+=" thunderbolt "
 
