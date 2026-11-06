@@ -110,6 +110,13 @@ When a package requires a capability that several packages provide, the build fa
 
 The image resolves cleanly against `openSUSE:Factory/snapshot` and builds. Remaining work, in rough order: a `tc-benchtop-release` package to give the system its own identity in place of `openSUSE-release-appliance`; a custom kernel; and implementing the GNOME old stable (n−1) policy. Pinning the whole Tumbleweed snapshot was noted as an interim option, but it also holds back the rest of the package set; it does not by itself implement a separately maintained GNOME branch.
 
+### Patterns
+
+#TODO — Evaluate the package groupings in the patterns
+
+- Now: benchtop-patterns builds three metapackages. The base pattern, which the image requires, has 468 `Requires`; admin (remote administration and servers) has 24, and languages 70. Everything added since October went into base, including system76-scheduler and Benchtop Focus Priority, the themes (adw-gtk3, the Yaru set, Kvantum for Qt 6 and Qt 5, KvLibadwaita, KvYaru-Colors) and the Ubuntu Sans fonts.
+- To decide: what stays in base, what becomes an optional pattern, and which optional patterns the installer offers (tik's package-set modules now, Agama's `user_patterns` after the move).
+
 ### Custom kernel
 
 #TODO — Hibernation with Secure Boot
@@ -200,4 +207,5 @@ TCBL changes to the installation, in `tik-config-benchtop` (until October 30 in 
 - tik: return to the session after a failure instead of powering off; the copy's progress and the installation log.
 - openSUSE chrony: the default `-s` without `rtconutc` or `hwclockfile` sets the clock from a UTC hardware clock as local time (TCBL: `90-tcbl-rtc.conf` in tc-benchtop-settings).
 - tik: put the recovery key in sdbootutil's current keyring entries (`sdbootutil-key`, `sdbootutil-recovery-pin`) instead of the deprecated `sdbootutil`.
+- Optional: Kvantum, a style key that follows the desktop's color scheme (TCBL maintains the patch either way); confirm it on the laptop first.
 - Track, without a TCBL report: [systemd issue 38829](https://github.com/systemd/systemd/issues/38829) (repart's fstab `discard`) and pull request 38192, a work in progress. When it is fixed in Tumbleweed's systemd, reconsider the `discard=async` in `50-root.conf`. Aeon (same `50-root.conf`): left to Aeon; no report.
