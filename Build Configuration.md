@@ -117,6 +117,13 @@ The image resolves cleanly against `openSUSE:Factory/snapshot` and builds. Remai
 - Now: benchtop-patterns builds three metapackages. The base pattern, which the image requires, has 468 `Requires`; admin (remote administration and servers) has 24, and languages 70. Everything added since October went into base, including system76-scheduler and Benchtop Focus Priority, the themes (adw-gtk3, the Yaru set, Kvantum for Qt 6 and Qt 5, KvLibadwaita, KvYaru-Colors) and the Ubuntu Sans fonts.
 - To decide: what stays in base, what becomes an optional pattern, and which optional patterns the installer offers (tik's package-set modules now, Agama's `user_patterns` after the move).
 
+### Build monitoring
+
+#TODO — A daily check of the OBS build results
+
+- The image was unresolvable from October 31 to November 5 (malcontent deleted from Factory) and nobody was told: OBS sends no notice when a package or image becomes unresolvable or fails.
+- Possible form: a scheduled GitHub Actions job that reads the public build results of home:technicomp:benchtop and home:technicomp:benchtop:images (`https://build.opensuse.org/public/build/<project>/_result`, which needs no credentials) and fails, so that GitHub notifies, when anything is `unresolvable`, `failed` or `broken`. Where it lives and how it notifies are not decided.
+
 ### Custom kernel
 
 #TODO — Hibernation with Secure Boot
