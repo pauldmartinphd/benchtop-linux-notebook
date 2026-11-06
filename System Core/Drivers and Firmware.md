@@ -138,6 +138,12 @@ tc-benchtop-settings does this automatically, 0.5 seconds after a Thunderbolt or
 
 Note: a kernel patch from Canonical (AceLan Kao, January 2026) takes the same approach, a rescan 300 ms after the tunnel is activated when pciehp has found nothing; it was still under review in February, and the reviewers suspected PCIe runtime power management rather than the tunnel.  The rescan here covers every PCI bus, not only the dock's.  One that finds nothing new changes nothing, so it stays even after a kernel fix.  To turn it off: `systemctl mask tcbl-pci-rescan.service`
 
+The driver is also in the initrd, so that a dock works at the disk prompt (as the ArchWiki advises for Thunderbolt at boot).  openSUSE's dracut builds host-only initrds and does not add it on its own.  Devices that need a PCIe tunnel may still wait for authorization, which boltd gives only after the disk is unlocked; to check on the laptop with the dock's keyboard and display:
+
+##### /usr/lib/dracut/dracut.conf.d/90-tcbl-thunderbolt.conf
+
+	add_drivers+=" thunderbolt "
+
 See [delayed-rescan patch v2](https://lkml.iu.edu/2601.2/08135.html)
 See [CachyOS issue 1057](https://github.com/CachyOS/linux-cachyos/issues/1057) (AMD Phoenix: the tunnel's root port in runtime suspend)
 
