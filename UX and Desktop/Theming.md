@@ -30,6 +30,8 @@ The themes below are built from their GitHub upstreams in benchtop-themes (see [
 - Wanted: when the system uses the Adwaita style (adw-gtk3, the default), each user's Firefox (the Flatpak from Flathub, installed by `tcbl-default-applications.service`) gets the Firefox GNOME theme (rafaelmardojai/firefox-gnome-theme) exactly as Add Water installs it, and the theme is kept up to date, without Add Water's application being installed.
 - Add Water (Flathub `dev.qwery.AddWater`, GPL-3.0-or-later, <https://github.com/largestgithubuseronearth/addwater>) installs that theme into Firefox profiles, supports the Flatpak Firefox, and updates the theme in the background. How it installs into a profile, and how it updates, has not been read yet.
 - Not decided: how TCBL does this (no solution yet).
+- Yaru (checked November 7, 2026): the theme follows Adwaita only. Its Yaru variant, a community contribution that changed only the accent color, was removed in April 2023 (commit e342c05, issue #535), and Add Water has no Yaru option. Its light colors take the accent from Firefox's `AccentColor`, so the system's accent color may carry over; whether it does under Yaru is not checked. Under Yaru, Firefox would therefore look like Adwaita, close but not the same.
+- Firefox ESR: the theme's releases follow Firefox's (tags v153, v157, v157.1 on November 7), and Add Water appears to always download the newest one. With ESR, TCBL would have to pin the release that matches the ESR version (v153 for ESR 153).
 
 ## Yaru Theme
 
