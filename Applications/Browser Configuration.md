@@ -23,10 +23,15 @@ Note: BraveVPNDisabled is a boolean policy, so it takes `true`, not `1`
 
 Decided November 6, 2026: Firefox is TCBL's browser, installed from Flathub for every user (`tcbl-default-applications.service`), because it is what most people expect. With no other browser installed, GNOME uses it as the default without further configuration.
 
-#TODO — Firefox ESR instead of the rapid release
+#TODO — The browser: Firefox ESR as a Flatpak, with the Firefox GNOME theme
 
-- Wanted: Firefox ESR. Mozilla publishes no ESR Flatpak, and Flathub has none (Mozilla bug 1779150, unconfirmed). Tumbleweed has `firefox-esr` (153.6.0 on November 6) as an rpm, and Mozilla's own zypper repository has one too.
-- Options: the Tumbleweed rpm in the base pattern (an exception to no GUI applications in the pattern; system-wide policies in one host file), or Mozilla's ESR binaries repackaged as a Flatpak in the TCBL Flatpak repository. Paused November 6; until then each user gets Flathub's Firefox.
+Decided November 7, 2026. Until it is done, each user gets Flathub's Firefox (rapid release), unthemed.
+
+- Firefox ESR, as a Flatpak, for every user (`tcbl-default-applications.service`, once). Mozilla publishes no ESR Flatpak and Flathub has none (Mozilla bug 1779150, unconfirmed), so it has to come from the TCBL Flatpak repository, built from Mozilla's ESR binaries. Firefox ESR stays free; the paid Firefox Enterprise (October 13, 2026) is a management console and support around it.
+- The Firefox GNOME theme (rafaelmardojai/firefox-gnome-theme), installed into each user's profile the way Add Water does it, and kept up to date, without Add Water's application. The theme's release has to match the ESR version (tag v153 for ESR 153), not the newest release that Add Water installs.
+- Yaru: the theme follows Adwaita only, but takes its accent from Firefox's `AccentColor`, which follows the GTK theme, so under Yaru it should get Yaru's accent by itself (the removed Yaru variant changed only the accent). This needs the Yaru GTK 3 Flatpak extensions from the TCBL Flatpak repository; without them the Flatpak falls back to Adwaita's blue. If `AccentColor` does not follow, override the theme's `--gnome-accent-bg` and `--gnome-accent`. To check on the laptop.
+- Preinstalled extensions and preferences: the TODO below.
+- Details in [Theming](../UX%20and%20Desktop/Theming.md) (the Firefox TODO).
 
 #TODO — Firefox: preinstalled extensions (an ad blocker such as uBlock Origin)
 
