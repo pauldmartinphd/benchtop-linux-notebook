@@ -56,4 +56,4 @@ There is no daily record before the notes were imported. This background comes f
 | [2026-11-04](2026-11-04.md) | Power at the disk prompt |
 | [2026-11-05](2026-11-05.md) | System76 Scheduler; themes and fonts; Kvantum follows the dark style; image unresolvable (malcontent); disk-prompt power-off; disk password; chrony |
 | [2026-11-06](2026-11-06.md) | Image builds again; image description trimmed, no overlay; Firefox for every user; PCI rescan for Thunderbolt docks |
-| [2026-11-07](2026-11-07.md) | The browser: Firefox ESR Flatpak with the Firefox GNOME theme |
+| [2026-11-07](2026-11-07.md) | The browser: Firefox ESR Flatpak with the Firefox GNOME theme; Collabora Office as the office suite |

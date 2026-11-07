@@ -6,7 +6,7 @@ Paul's own Flatpak applications are listed separately in [Personal Flatpak Set](
 
 ## Web
 
-* Brave
+* Firefox (ESR planned): the default browser, installed for every user; see [Browser Configuration](Browser%20Configuration.md)
 * Bitwarden
 * Linkwarden
 
@@ -25,7 +25,7 @@ Paul's own Flatpak applications are listed separately in [Personal Flatpak Set](
 
 ## Office
 
-* Office — LibreOffice
+* Office — Collabora Office, the desktop version (Flathub `com.collaboraoffice.Office`), installed for every user (decided November 7, 2026; replaces LibreOffice)
 * Notes — Obsidian
 
 ## Broadcasting
