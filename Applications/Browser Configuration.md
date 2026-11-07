@@ -33,10 +33,14 @@ Decided November 7, 2026. Until it is done, each user gets Flathub's Firefox (ra
 - Preinstalled extensions and preferences: the TODO below.
 - Details in [Theming](../UX%20and%20Desktop/Theming.md) (the Firefox TODO).
 
-#TODO — Firefox: preinstalled extensions (an ad blocker such as uBlock Origin)
+#TODO — Firefox: extensions packaged into TCBL's Firefox ESR Flatpak
 
-- Possible route: Firefox's enterprise policies (`ExtensionSettings`, with an addons.mozilla.org install URL), in a system-wide `policies.json` for the Flatpak, which Firefox reads from the `org.mozilla.firefox.systemconfig` extension point since Firefox 115 (Mozilla bug 1814897): `/var/lib/flatpak/extension/org.mozilla.firefox.systemconfig/x86_64/stable/policies/policies.json`, with preference files in `defaults/pref` beside it. The same place could carry the preferences below.
-- To check: whether a Firefox installed in the user's own installation, as TCBL installs it, reads that system-wide extension. Which extensions, and whether users may remove them, is not decided.
+Decided November 7, 2026: the extensions come with TCBL's own Firefox ESR Flatpak (the TODO above), not from each user's profile setup.
+
+- uBlock Origin: `uBlock0@raymondhill.net`, GPL-3.0-only, <https://github.com/gorhill/uBlock>
+- Shut Up (comment blocker): `{b6840179-45a1-4a2d-a4ef-e2815c1faa28}`, MIT, <https://github.com/RickyRomero/shut-up-webextension>
+- Others: to be listed. Each needs a license that allows redistribution, and Mozilla's signed build from addons.mozilla.org (Firefox loads only signed extensions).
+- How, to decide: the signed `.xpi` files in the Flatpak's `distribution/extensions` folder, which Firefox installs into new profiles, or `ExtensionSettings` in a `policies.json` inside the Flatpak (installation mode and install URL per extension); the same `policies.json` can carry the preferences below. Not decided: whether users may remove them, and whether they then update from addons.mozilla.org or only with the Flatpak.
 
 ### Fix Scrolling
 
