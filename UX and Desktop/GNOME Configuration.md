@@ -47,7 +47,11 @@ Terminal programs don't get launchers in the app grid.  rpm skips the launchers 
 ### Fingerprint Reader
 https://github.com/xapp-project/fingwit
 
-Fingerprint authentication is in openSUSE's common PAM stack (tc-benchtop-settings runs `pam-config -a --fprintd`), so sudo, administrator prompts and the login screen accept an enrolled fingerprint.  A login with a fingerprint leaves the login keyring locked: the keyring is encrypted with the password, and a fingerprint gives no password to unlock it with, so the first application that needs a stored secret asks for it.  This is how GNOME behaves wherever fingerprint login is on, not a TCBL fault.  Unlocking the screen with a fingerprint later is not affected, since the keyring is already open.
+Fingerprint (November 8, 2026): the first login takes the password, which also unlocks the login keyring; after that, an enrolled fingerprint works for sudo, administrator prompts (polkit) and unlocking the screen, where the password works too.  A fingerprint login would leave the keyring locked, since the keyring is encrypted with the password.
+
+- `/etc/pam.d/sudo`, `sudo-i` and `polkit-1` (tc-benchtop-settings) try `pam_fprintd` first and then include openSUSE's own files from `/usr/lib/pam.d` by absolute path, which Linux-PAM allows, so openSUSE's changes still apply.  Users without a fingerprint are asked for the password at once.
+- The login screen does not offer the fingerprint: `enable-fingerprint-authentication=false` in a dconf system database for GDM alone (`/etc/dconf/profile/gdm`, `/etc/dconf/db/gdm.d/90-tcbl-fingerprint`, compiled by `dconf update`).  GNOME Shell reads that key in the process that shows the prompt, so the login screen (the gdm user) and the lock screen (the user's own settings, where it stays on) decide separately.
+- Not in the common PAM stack: with `pam_fprintd` there, GDM's password login also accepted a fingerprint.  The first version (`pam-config -a --fprintd`) did that and was replaced the same day.
 
 #TODO — Secret Service: oo7 in place of gnome-keyring
 
