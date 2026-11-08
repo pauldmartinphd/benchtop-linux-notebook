@@ -126,6 +126,12 @@ The image resolves cleanly against `openSUSE:Factory/snapshot` and builds. Remai
 
 ### Custom kernel
 
+The main reason for a TCBL kernel is hardware: driver support, and the [linux-surface](https://github.com/linux-surface) patches for Microsoft Surface devices. Hibernation and the items below would ride on it, but do not on their own decide it.
+
+#TODO — Driver support and the linux-surface patches
+
+- Which drivers and patches, and how the kernel follows Tumbleweed's: not yet worked out.
+
 #TODO — Hibernation with Secure Boot
 
 - Upstream route, preferred if it lands (November 8, 2026): Matthew Garrett's patch set lets a locked-down kernel hibernate, so openSUSE's own kernel, lockdown included, could hibernate and the custom-kernel route below would not be needed for this. The kernel signs the hibernation image with a key it creates in the TPM and keeps from user space. To stop an older kernel from reaching that key, the boot stub extends PCR 5 with a marker before the firmware caps PCR 5 at ExitBootServices, and the key's creation is proved by a TPM-signed audit of the session. Reported in LWN, "Locking down hibernation for the winter" (Daroc Alden, November 6, 2026). Status: first version, reviewed; a second version is needed. Track it into mainline and then into Tumbleweed's kernel.
