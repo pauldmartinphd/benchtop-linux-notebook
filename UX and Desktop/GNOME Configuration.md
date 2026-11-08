@@ -47,6 +47,13 @@ Terminal programs don't get launchers in the app grid.  rpm skips the launchers 
 ### Fingerprint Reader
 https://github.com/xapp-project/fingwit
 
+Fingerprint authentication is in openSUSE's common PAM stack (tc-benchtop-settings runs `pam-config -a --fprintd`), so sudo, administrator prompts and the login screen accept an enrolled fingerprint.  A login with a fingerprint leaves the login keyring locked: the keyring is encrypted with the password, and a fingerprint gives no password to unlock it with, so the first application that needs a stored secret asks for it.  This is how GNOME behaves wherever fingerprint login is on, not a TCBL fault.  Unlocking the screen with a fingerprint later is not affected, since the keyring is already open.
+
+#TODO — Secret Service: oo7 in place of gnome-keyring
+
+- Fedora 45 switches its GNOME desktops' Secret Service from gnome-keyring to oo7 (accepted change; oo7 migrates the existing keyrings and comes with a PAM module).  Tumbleweed packages oo7 0.4.3 (`oo7-daemon`, `oo7-portal`, `oo7-cli`) but no PAM module, so it could not unlock at login yet; TCBL uses gnome-keyring 51.1.  Revisit when Tumbleweed has the PAM module, or GNOME or openSUSE makes oo7 the default.
+- oo7 does not by itself fix the locked keyring after a fingerprint login: the secrets are still encrypted with the password.  Whether oo7 offers an unlock without the password (for example through the TPM) is not known.
+
 ### Other
 
 * Color Picker: Standalone App + QT + GTK
