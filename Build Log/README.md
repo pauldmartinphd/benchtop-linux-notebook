@@ -58,3 +58,4 @@ There is no daily record before the notes were imported. This background comes f
 | [2026-11-06](2026-11-06.md) | Image builds again; image description trimmed, no overlay; Firefox for every user; PCI rescan for Thunderbolt docks |
 | [2026-11-07](2026-11-07.md) | The browser: Firefox ESR Flatpak with the Firefox GNOME theme; Collabora Office as the office suite |
 | [2026-11-08](2026-11-08.md) | Hibernation under lockdown: the upstream route; nano; fingerprint for sudo and administrator prompts |
+| [2026-11-13](2026-11-13.md) | Panic screen QR code: an idea for the TCBL kernel |

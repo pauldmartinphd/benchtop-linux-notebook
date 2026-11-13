@@ -132,6 +132,13 @@ The main reason for a TCBL kernel is hardware: driver support, and the [linux-su
 
 - Which drivers and patches, and how the kernel follows Tumbleweed's: not yet worked out.
 
+#TODO — Maybe: a QR code on the kernel's panic screen
+
+- This records an idea, not a decision.  Fedora 42 shows a QR code with the kernel's error trace when the kernel panics (drm_panic), and Fedora 45 adds a web page that decodes it on the phone that scans it, explains it, and opens a pre-filled bug report ([Fedora change DrmPanicFrontend](https://fedoraproject.org/wiki/Changes/DrmPanicFrontend); the decoding happens in the browser, and the trace is not sent to the server).
+- openSUSE's kernel (7.3.3, November 13, 2026) has the panic screen (`CONFIG_DRM_PANIC=y`) showing the last kernel messages (`CONFIG_DRM_PANIC_SCREEN="kmsg"`), but no QR code, which needs Rust in the kernel (`CONFIG_DRM_PANIC_SCREEN_QR_CODE`, with the decoding page's address in `CONFIG_DRM_PANIC_SCREEN_QR_CODE_URL`).  So it would come with the TCBL kernel.
+- The page is AGPL-3.0 (<https://github.com/JoseExposito/drm-panic-frontend>), a static site whose bug-tracker link is set when it is built, so TCBL could host its own copy pointing at TCBL's issue tracker.
+- Whether amdgpu draws the panic screen on silversurfer is not checked.  With `kernel.panic=5`, the screen stays for 5 seconds before the restart.
+
 #TODO — Hibernation with Secure Boot
 
 - Upstream route, preferred if it lands (November 8, 2026): Matthew Garrett's patch set lets a locked-down kernel hibernate, so openSUSE's own kernel, lockdown included, could hibernate and the custom-kernel route below would not be needed for this. The kernel signs the hibernation image with a key it creates in the TPM and keeps from user space. To stop an older kernel from reaching that key, the boot stub extends PCR 5 with a marker before the firmware caps PCR 5 at ExitBootServices, and the key's creation is proved by a TPM-signed audit of the session. Reported in LWN, "Locking down hibernation for the winter" (Daroc Alden, November 6, 2026). Status: first version, reviewed; a second version is needed. Track it into mainline and then into Tumbleweed's kernel.
