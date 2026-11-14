@@ -34,6 +34,7 @@ Consider combining the desired behavior of Dash to Dock, Dash to Panel, dynamic 
 
 ### Drop to Shell
 https://gitlab.com/gunwald/drop-to-shell
+https://www.reddit.com/r/gnome/comments/1xuepz4/drop_to_shell_applying_gnomes_hig_to_the_shell_or/ (discussion: applying GNOME's Human Interface Guidelines to the Shell)
 
 * Replaces the top bar's dropdowns with larger views: Quick Settings as a resizable side pane, the clock as a Today page in the overview
 * drop-to-shell@gunwald.gitlab.com, GNOME 50 and 51, GPL-2.0
