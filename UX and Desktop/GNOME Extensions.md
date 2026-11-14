@@ -53,6 +53,7 @@ https://gitlab.com/gunwald/glean
 * Clipboard history (the clipboard and the middle-click selection, kept across locking and restarts) and quick notes; a drawer in the Drop to Shell pane
 * glean@gunwald.gitlab.com, GNOME 50 and 51, GPL-2.0
 * Replaces Pano (November 6, 2026)
+* Inserts a chosen entry where you were typing (Drop to Shell's post, November 13, 2026); works on its own, without Drop to Shell
 
 ### GTK4 Desktop Icons Next Generation (DING)
 Include but toggle off by default.
