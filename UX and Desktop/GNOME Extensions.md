@@ -80,12 +80,12 @@ Consider merging the phone-integration ("Connect") functionality. GSConnect cove
 
 ### Quick Settings Tweaks
 
-* May be replaced by Tally with Drop to Shell (below). Of its widgets, Tally has the media controls and Drop to Shell's Today page the notifications, and Drop to Shell's pane does what its overlay layout is for. Not covered: the per-application volume mixer, and hiding, reordering and recoloring the Quick Settings and panel items. Whether Quick Settings Tweaks and Drop to Shell work together is not checked.
+* To be replaced by Tally with Drop to Shell (decided November 14, 2026). Of its widgets, Tally has the media controls and Drop to Shell's Today page the notifications, and Drop to Shell's pane does what its overlay layout is for. Hiding, reordering and recoloring items is not needed. The per-application volume mixer is expected to come to one of the new extensions; until then another extension can provide it. Whether Quick Settings Tweaks and Drop to Shell work together does not matter once it is dropped.
 
 ### Tally
 https://gitlab.com/gunwald/tally
 
-* Consider (November 14, 2026), from the author of Drop to Shell and Glean
+* Consider (November 14, 2026), from the author of Drop to Shell and Glean; with Drop to Shell, it takes the place of Quick Settings Tweaks
 * Glanceable widgets in Quick Settings, each with its own switch: media players in one compact row each under the system buttons (instead of in the notifications); a System pill with CPU and memory use that opens graphs of the last minute (CPU, memory, network, disks), read only while Quick Settings or the pane is open; the progress of Files' copies, moves and deletions, which can be paused or cancelled there, with a progress icon in the top bar
 * File operations need a Files that lists its operations over D-Bus ([GNOME/nautilus#4358](https://gitlab.gnome.org/GNOME/nautilus/-/issues/4358)); off by default, and hidden with other versions
 * With Drop to Shell, the widgets stay in view in its pane
