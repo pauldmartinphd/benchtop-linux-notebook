@@ -38,6 +38,14 @@ https://www.reddit.com/r/gnome/comments/1xuepz4/drop_to_shell_applying_gnomes_hi
 
 * Replaces the top bar's dropdowns with larger views: Quick Settings as a resizable side pane, the clock as a Today page in the overview
 * drop-to-shell@gunwald.gitlab.com, GNOME 50 and 51, GPL-2.0
+* From the author's post (November 13, 2026; marked LLM-assisted):
+    * Quick Settings pane: opens on the right with the system indicators or Super+S, and stays open while focus changes; windows make room for it, it can be resized, and Super+S or Esc closes it
+    * Today page: the clock or Super+M shows notifications, a month view with events, the day's schedule, weather and world clocks across the screen
+    * GNOME's own widgets, moved rather than rebuilt: other extensions' Quick Settings toggles keep working, and Blur My Shell blurs the pane; sections collapse when space runs out
+    * Built-in tray icons (StatusNotifierItem), optional, so they can be left to the AppIndicator extension; the pane and the Today page can each be switched off
+    * Companion extensions: Glean, and Tally (media players, file copies with pause and cancel, a system monitor)
+    * Caveats: not on extensions.gnome.org yet; it hooks into Shell internals (it has a test suite that runs in a headless Shell)
+* To check in TCBL: Tiling Shell with the pane (untested by the author), the tray icons against AppIndicator, and whether a pane that stays open suits everyone; one commenter found having to close it for every toggle worse than the dropdown
 
 ### Glean
 https://gitlab.com/gunwald/glean
