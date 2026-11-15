@@ -218,6 +218,11 @@ TCBL changes to the installation, in `tik-config-benchtop` (until October 30 in 
 - Which pattern carries it: an optional set offered in the installer, so it is installed only where wanted.
 - Pools, including a RAIDZ /home, are created after installation with `zpool`; no installer creates them, and Cockpit has no ZFS support of its own.
 
+#TODO — Firmware and dbx updates leave the disk asking for its key
+
+- fwupd's UEFI dbx and system firmware updates change the PCRs that the disk key is sealed to (fwupd marks them "Full disk encryption secrets may be invalidated when updating"); on silversurfer the updates of October 26, 2026 made every later boot ask for the recovery key. GNOME Software offers such updates to users.
+- To find out: whether sdbootutil or systemd-pcrlock can predict a dbx or firmware update before the reboot that applies it, and if not, what TCBL should do: re-authorize the policy with the recovery PIN after the update (`sdbootutil update-predictions`), warn the user in GNOME Software before it installs one, or hold such updates until the user chooses. Depends on every system having a recovery PIN that sdbootutil can use (report 6).
+
 #TODO — Maybe: a recovery-key check in the installer
 
 - This records an idea, not a decision. In TPM mode tik generates a recovery key and shows it once. A TCBL post-module could have part of it typed back before continuing, so the dialog cannot be dismissed without recording the key. The passphrase part of this idea was built on November 5 (Disk password, under Installer).
