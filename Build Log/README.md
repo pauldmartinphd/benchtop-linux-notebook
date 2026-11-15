@@ -60,3 +60,4 @@ There is no daily record before the notes were imported. This background comes f
 | [2026-11-08](2026-11-08.md) | Hibernation under lockdown: the upstream route; nano; fingerprint for sudo and administrator prompts |
 | [2026-11-13](2026-11-13.md) | Panic screen QR code: an idea for the TCBL kernel; Waydroid needs binder |
 | [2026-11-14](2026-11-14.md) | Drop to Shell details; Tally to replace Quick Settings Tweaks |
+| [2026-11-15](2026-11-15.md) | PackageKit arrived with an update; updates install only required packages |
