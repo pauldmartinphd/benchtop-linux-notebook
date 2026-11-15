@@ -52,6 +52,12 @@ The themes below are built from their GitHub upstreams in benchtop-themes (see [
 
 #TODO — Kvantum: build `org.kde.KStyle.Kvantum` with the patch in the TCBL Flatpak repository (with the Yaru GTK 3 extensions), set the Flatpak override to `kvantum-auto`, and remove the Kvantum part of Benchtop Theme Switcher, which ends the race above.
 
+#TODO — Benchtop Theme Switcher: random black flashes of the screen, often, while it is enabled (silversurfer, November 15, 2026); Paul disabled it. Cause not known: the extension acts only when `color-scheme` changes, so either that key changes often or the flashes have another cause. While it is disabled, GTK 3 and Flatpak Qt applications do not follow dark mode.
+
+#TODO — Qt applications on silversurfer (November 15, 2026): whether a Kvantum theme is applied at all, and whether it looks like Adwaita (KvLibadwaita imitates libadwaita and will not match it exactly); the resize cursor at window corners differs from GNOME's.
+
+#TODO — Benchtop Theme Switcher: switch cursors and icons as well, for GNOME, Qt and Kvantum alike (Paul, November 15, 2026). This records an idea, not a decision.
+
 ## macOS-Inspired
 
 * https://github.com/vinceliuice/MacTahoe-gtk-theme
