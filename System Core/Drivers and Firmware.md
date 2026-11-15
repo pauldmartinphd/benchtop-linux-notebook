@@ -138,6 +138,8 @@ tc-benchtop-settings does this automatically, 0.5 seconds after a Thunderbolt or
 
 Note: a kernel patch from Canonical (AceLan Kao, January 2026) takes the same approach, a rescan 300 ms after the tunnel is activated when pciehp has found nothing; it was still under review in February, and the reviewers suspected PCIe runtime power management rather than the tunnel.  The rescan here covers every PCI bus, not only the dock's.  One that finds nothing new changes nothing, so it stays even after a kernel fix.  To turn it off: `systemctl mask pci-rescan.service`
 
+Tested on silversurfer on November 15: pci-rescan.service ran at boot and when the dock was plugged in, the dock's devices came up, and SELinux denied nothing.  Paul's own rule from before the package (`/etc/udev/rules.d/98-thunderbolt-rescan.rules`) was still in place, so it is being removed and the hotplug checked once more without it.
+
 The driver is also in the initrd, so that a dock works at the disk prompt (as the ArchWiki advises for Thunderbolt at boot).  openSUSE's dracut builds host-only initrds and does not add it on its own.  Devices that need a PCIe tunnel may still wait for authorization, which boltd gives only after the disk is unlocked; to check on the laptop with the dock's keyboard and display:
 
 ##### /usr/lib/dracut/dracut.conf.d/90-thunderbolt.conf
