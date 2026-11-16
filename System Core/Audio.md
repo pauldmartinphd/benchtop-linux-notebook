@@ -12,6 +12,10 @@ It is wired transparently: `pipewire-libjack-0_3` installs `/etc/ld.so.conf.d/pi
 
 Low-latency scheduling uses rtkit with the rtprio and memlock limits below (Realtime Audio Configuration), so a JACK client needing SCHED_FIFO must run as a user in that limits group. As built: Build31.1, PipeWire 1.6.9.
 
+### Echo cancellation (November 15, 2026)
+
+tc-benchtop-settings loads PipeWire's echo-cancel module (`/usr/share/pipewire/pipewire.conf.d/90-tcbl-echo-cancel.conf`), with its WebRTC canceller, in monitor mode: an extra microphone, "Echo-Cancel Source", from which whatever plays on the default output is removed. It is not the default; the user chooses it in Settings, Sound. Applications that cancel echo themselves (browsers through WebRTC, most meeting applications) do not need it, and it would alter recordings of music. Upstream's defaults are kept: the microphone and monitor streams are passive, so they open the devices only while something records from the echo-cancelled microphone. Neither PipeWire's own configuration nor openSUSE's loads the module. The module and the canceller are in `pipewire-modules-0_3` and `pipewire-spa-plugins-0_2`, which `pipewire` requires. Not yet tested: that the real microphone stays the default (the module sets no session priority for its source), and that the microphone is not held open while unused.
+
 ### Bluetooth codecs
 
 The goal is to include the codec support needed by the supported headsets. The notes list SBC/SBC-XQ, AAC, aptX variants, LDAC, and LC3/LC3plus for evaluation. Availability depends on the PipeWire build, session-manager configuration, Bluetooth transport, and both devices; installing one package does not establish support for every codec.
