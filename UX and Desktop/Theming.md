@@ -56,7 +56,10 @@ The themes below are built from their GitHub upstreams in benchtop-themes (see [
 
 #TODO — Qt applications on silversurfer (November 15, 2026): whether a Kvantum theme is applied at all, and whether it looks like Adwaita (KvLibadwaita imitates libadwaita and will not match it exactly); the resize cursor at window corners differs from GNOME's.
 
-#TODO — Benchtop Theme Switcher: switch cursors and icons as well, for GNOME, Qt and Kvantum alike (Paul, November 15, 2026). This records an idea, not a decision.
+#TODO — A system-wide theme switcher for a set of themes TCBL supports: GTK, GNOME Shell, Qt and Kvantum, icons and cursors, on the host and in Flatpak applications (Paul, November 15, 2026). Benchtop Theme Switcher, which switches only between light and dark, is the starting point.
+
+- Flatpak (read in flatpak's `flatpak-run.c`, main, November 15): an application gets the session's environment except a short list that Flatpak resets (`PATH`, the `LD_` variables, `XDG_CONFIG_DIRS`, `XDG_DATA_DIRS`, `SHELL`, the temporary directories, `XDG_RUNTIME_DIR`), so Flatpak Qt applications already receive `QT_STYLE_OVERRIDE=kvantum-auto` from the session. Flathub's Kvantum does not know that key, which is why the system-wide override sets `kvantum`. No Flatpak can change another application's permissions or environment; only override files can.
+- With TCBL's own Kvantum extension (the TODO above), the override could go: the patched extension understands `kvantum-auto`, and if it carries the supported Kvantum themes itself, with KvLibadwaita as the default, applications need no access to `~/.config/Kvantum`. Not decided: how a theme chosen in the switcher (such as a Yaru accent) would reach the extension without that access; the desktop portal's `accent-color` is one possibility. This records an idea, not a decision.
 
 ## macOS-Inspired
 
