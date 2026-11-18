@@ -252,6 +252,12 @@ The names below were collected from multiple distributions, including Arch/AUR. 
 - openSUSE's `ubuntu-fonts` is the original Ubuntu family (0.83, 2011, with Ubuntu Mono), which the base pattern already requires. Ubuntu Sans and Ubuntu Sans Mono, Ubuntu's fonts since 23.10, are not in openSUSE Factory or M17N:fonts; benchtop-themes builds them from Canonical's GitHub releases (Ubuntu Font Licence 1.0). Each family is two packages that conflict, so that it is never listed twice: the variable fonts (`ubuntu-sans-fonts`, `ubuntu-sans-mono-fonts`, installed by default) and the static TrueType fonts (`ubuntu-sans-static-fonts`, `ubuntu-sans-mono-static-fonts`). The releases' OpenType and web fonts are the same designs again and are left out.
 - Intel One Mono 1.5 (November 4) waits for openSUSE's `intel-one-mono-fonts`, at 1.4.0 in Factory and M17N:fonts; decided November 5. A plain version bump will not build: the release archive was renamed (`intel-one-mono-ttf.zip`), as was its folder, and `OFL.txt` is no longer in it.
 
+## Sarasa Gothic (November 17, 2026)
+
+- [Sarasa Gothic](https://github.com/be5invis/Sarasa-Gothic) (be5invis, SIL Open Font License 1.1; specimen: <https://picaq.github.io/sarasa/>) pairs Source Han Sans' Chinese, Japanese and Korean characters with Inter's Latin letters (Sarasa Gothic, Sarasa UI) or Iosevka's (Mono, Term, Fixed and their Slab versions, where a CJK character is exactly two Latin letters wide), for Simplified, Traditional, Hong Kong and Classical Chinese, Japanese and Korean. Not in openSUSE; benchtop-themes builds `sarasa-gothic-fonts` from the release's hinted TrueType collections, every family, orthography and weight (version 1.0.43: ten files, 858 MB installed). The base pattern installs it; it is not a default (decided November 17).
+- Sizes measured on the 1.0.43 release: hinted TTC 858 MB, unhinted TTC 648 MB, one unhinted SuperTTC 625 MB, Sarasa Term with Simplified Chinese forms only (unhinted TTF) 145 MB.
+- It cannot be the text console's font (kernel console fonts are bitmaps of at most 512 characters); it is for terminals, editors and IDEs.
+
 ## Open Source Font Stack (Curated)
 
 * Atkinson Hyperlegible (accessibility)
@@ -264,6 +270,7 @@ The names below were collected from multiple distributions, including Arch/AUR. 
 * Inter
 * JetBrains Mono
 * Microsoft Cascadia Code
+* Sarasa Gothic (CJK)
 * NebulaSans (from the original font list)
 * Ubuntu
 
