@@ -21,6 +21,12 @@ GNOME Software installs Flatpak files opened from outside it (such as the .flatp
 
     gsettings set org.gnome.software install-bundles-system-wide false
 
+### FlatPark (not included)
+
+#TODO — Reconsider [FlatPark](https://flatpark.org/docs/project/about/) as a second per-user remote once the project has matured (Paul, November 19, 2026: "too early").
+
+This records an idea, not a decision.  FlatPark is a community Flatpak remote, not affiliated with Flathub, that repackages vendors' official Linux downloads as extra-data Flatpaks: the client downloads the vendor's file at install time, pinned by checksum and size, so TCBL would redistribute nothing.  It does not build from source, allows closed-source apps, reviews submissions with AI assistance against a published runbook without auditing source, and recommends adding it per user together with Flathub for the runtimes (`flatpak --user remote-add --if-not-exists flatpark https://dl.flatpark.org/flatpark.flatpakrepo`).  Checked November 19: its first signing key dates from June 19, 2026; the remote file then carried a second key from November 15, 2026, so a key change was under way; the pages read name no maintainers.  Open questions for that time: Flathub's priority over FlatPark where both offer an app, and whether to add the remote from its URL at login (current keys, needs the network) or ship a copy of its remote file (offline, but each key change needs a package update).
+
 ### Homebrew Per User
 
 Homebrew is installed for each user, in their own home, the first time they run brew: /usr/bin/brew runs Homebrew's own installer for them, without sudo, and hands the command over to it.  Nothing is downloaded for users who never run brew.  Homebrew's prebuilt packages (bottles) work in a prefix no longer than its default, /home/linuxbrew/.linuxbrew (26 bytes), so the prefix is ~/.linuxbrew, or ~/.brew when the home path is too long for that (user names of 10 to 14 characters); a longer home path gets an error instead of an installation that builds everything from source.  Homebrew calls this support for other prefixes new and possibly not yet fully stable
