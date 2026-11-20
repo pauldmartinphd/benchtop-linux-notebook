@@ -63,3 +63,4 @@ There is no daily record before the notes were imported. This background comes f
 | [2026-11-15](2026-11-15.md) | PackageKit arrived with an update; updates install only required packages |
 | [2026-11-17](2026-11-17.md) | Sarasa Gothic added; a freeze after logging out on the dock |
 | [2026-11-19](2026-11-19.md) | The dock dropped after a resume, then a hang in the next suspend; TCBL's user services run for the login screen's user |
+| [2026-11-20](2026-11-20.md) | Tumbleweed moves to Agama by the end of 2026 |
