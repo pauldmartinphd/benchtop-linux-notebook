@@ -271,7 +271,7 @@ Steps:
 2. `sdbootutil update-all-entries`
 3. The `options` line of snapshot N's entry has the file's options twice; the running snapshot's entry has them once.
 
-Seen with `sdbootutil-1+git20261026.4e266f0` on Tumbleweed (which still reads the vendor files from `/usr/kernel/cmdline.d`), with a vendor drop-in of 13 options: the entries of the two snapshots that contained the file listed all 13 twice. The code is unchanged in `main`.
+Seen with `sdbootutil-1+git20261026.4e266f0` on Tumbleweed (which still reads the vendor files from `/usr/kernel/cmdline.d`), with a vendor drop-in of 10 options: the entries of the two snapshots that contained the file listed all 10 twice. The code is unchanged in `main`.
 
 Expected: each drop-in name contributes once. One way: skip a running-system drop-in whose name was already listed from the snapshot, so that the snapshot's own file wins, in the same way an `/etc` file replaces the `/usr/lib` file of the same name.
 ~~~
