@@ -227,16 +227,14 @@ TCBL changes to the installation, in `tik-config-benchtop` (until October 30 in 
 #TODO — Maybe: a recovery-key check in the installer
 
 - This records an idea, not a decision. In TPM mode tik generates a recovery key and shows it once. A TCBL post-module could have part of it typed back before continuing, so the dialog cannot be dismissed without recording the key. The passphrase part of this idea was built on November 5 (Disk password, under Installer).
-- tik also makes the recovery key the TPM policy's recovery PIN: it puts the key in root's keyring as `sdbootutil`, which sdbootutil, finding no other source, uses as the recovery PIN of the pcrlock NV index ("taken from the recovery key so that there is a single secret to keep"). After a PCR change, `sdbootutil update-predictions --ask-recovery-pin` with the recovery key typed at the PIN prompt re-authorizes the policy. Read in tik 1.5.1 and sdbootutil's source, not yet confirmed on a machine. sdbootutil calls that keyring name deprecated (report 6 in Upstream Reports).
+- tik also makes the recovery key the TPM policy's recovery PIN: it puts the key in root's keyring as `sdbootutil`, which sdbootutil, finding no other source, uses as the recovery PIN of the pcrlock NV index ("taken from the recovery key so that there is a single secret to keep"). After a PCR change, `sdbootutil update-predictions --ask-recovery-pin` with the recovery key typed at the PIN prompt re-authorizes the policy. Read in tik 1.5.1 and sdbootutil's source, not yet confirmed on a machine. sdbootutil calls that keyring name deprecated (report 6 in Upstream Reports, not filed).
 - On an installed system: `sdbootutil enroll --method=password --ask-pw` adds a passphrase, and `sdbootutil unenroll --method=recovery-key` followed by `sdbootutil enroll --method=recovery-key` replaces the recovery key. sdbootutil unlocks through the TPM to authorize both.
 
 #TODO — File the upstream reports in [Upstream Reports](Upstream%20Reports.md)
 
-- systemd: mkfs.btrfs discarding again after `--empty=force` has discarded the whole disk; add the install test's result first.
-- yast2-samba-server: `Supplements: (samba and yast2)`.
-- tik: return to the session after a failure instead of powering off; the copy's progress and the installation log.
-- openSUSE chrony: the default `-s` without `rtconutc` or `hwclockfile` sets the clock from a UTC hardware clock as local time (TCBL: `90-tcbl-rtc.conf` in tc-benchtop-settings).
-- tik: put the recovery key in sdbootutil's current keyring entries (`sdbootutil-key`, `sdbootutil-recovery-pin`) instead of the deprecated `sdbootutil`.
-- Optional: Kvantum, a style key that follows the desktop's color scheme (TCBL maintains the patch either way); confirm it on the laptop first.
-- Aeon: patterns-aeon still requires `malcontent-control`, deleted from Factory on October 30.
+- systemd: mkfs.btrfs discarding again after `--empty=force` has discarded the whole disk; only if the install test shows the pause.
+- openSUSE chrony: the default `-s` without `rtconutc` or `hwclockfile` sets the clock from a UTC hardware clock as local time (TCBL: `90-tcbl-rtc.conf` in tc-benchtop-settings); search Bugzilla for an existing report first.
+- sdbootutil: a `cmdline.d` drop-in in both a snapshot and the running system is added twice to that snapshot's entry (report 9, ready).
+- Possibly: the suspend at logout on the dock (logind or GDM), after the dock suspend test.
+- Not filed, with reasons, at the end of Upstream Reports: yast2-samba-server, the three tik reports, Kvantum and patterns-aeon (decided November 20).
 - Track, without a TCBL report: [systemd issue 38829](https://github.com/systemd/systemd/issues/38829) (repart's fstab `discard`) and pull request 38192, a work in progress. When it is fixed in Tumbleweed's systemd, reconsider the `discard=async` in `50-root.conf`. Aeon (same `50-root.conf`): left to Aeon; no report.
