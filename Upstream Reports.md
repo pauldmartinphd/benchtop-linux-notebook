@@ -237,3 +237,41 @@ but malcontent was deleted from openSUSE:Factory on October 30, 2026 (request 13
 
 Proposed change: remove the requirement (and the comment above it).
 ~~~
+
+## 9. sdbootutil: a drop-in in both the snapshot and the running system is added twice
+
+- Where: <https://github.com/openSUSE/sdbootutil/issues> (bug report form).
+- Status: seen on silversurfer on November 15, 2026 (sdbootutil `1+git20261026.4e266f0`): after `sdbootutil update-all-entries`, the entries of snapshots 59 and 61 carried `90-tcbl.conf`'s options twice, the running snapshot's once. The same code is in `main` (`75bd88a`, November 21). Related, and not a duplicate: issue 411, fixed by pull request 460 (merged October 26), was the running snapshot reading the same directory twice; pull request 458, the alternative, stated that entries of other snapshots were left as before. Duplicate search done November 21.
+
+Title:
+
+~~~
+kernel_cmdline_files: a cmdline.d drop-in present in both a snapshot and the running system is added twice to that snapshot's entry
+~~~
+
+Body:
+
+~~~markdown
+When `kernel_cmdline_files` builds the command line for a snapshot that is not the running one, it lists the drop-ins of that snapshot and then those of the running system:
+
+```
+local usr_dropins=("${subvol:1}"/usr/lib/kernel/cmdline.d/*)
+local etc_dropins=("${subvol:1}"/etc/kernel/cmdline.d/*)
+if ! [ "${subvol:1}/" -ef / ]; then
+	usr_dropins+=(/usr/lib/kernel/cmdline.d/*)
+	etc_dropins+=(/etc/kernel/cmdline.d/*)
+fi
+```
+
+A drop-in that exists in both, such as one shipped by a package installed before the snapshot was taken, is listed twice, and its options appear twice in the entry. #411 / #460 fixed the case where both paths are the same directory (the running snapshot); this is the case where they are different directories holding a file of the same name.
+
+Steps:
+
+1. Have a package install `/usr/lib/kernel/cmdline.d/90-example.conf` (for example containing `quiet`), and keep a snapper snapshot N, other than the running one, that contains it.
+2. `sdbootutil update-all-entries`
+3. The `options` line of snapshot N's entry has the file's options twice; the running snapshot's entry has them once.
+
+Seen with `sdbootutil-1+git20261026.4e266f0` on Tumbleweed (which still reads the vendor files from `/usr/kernel/cmdline.d`), with a vendor drop-in of 13 options: the entries of the two snapshots that contained the file listed all 13 twice. The code is unchanged in `main`.
+
+Expected: each drop-in name contributes once. One way: skip a running-system drop-in whose name was already listed from the snapshot, so that the snapshot's own file wins, in the same way an `/etc` file replaces the `/usr/lib` file of the same name.
+~~~
