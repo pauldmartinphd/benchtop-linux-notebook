@@ -68,6 +68,7 @@ chrony 4.9, openSUSE Tumbleweed [fill in the snapshot: `cat /etc/os-release`].
 - Where: <https://github.com/openSUSE/sdbootutil/issues> (bug report form).
 - Status: seen on silversurfer on November 15, 2026 (sdbootutil `1+git20261026.4e266f0`): after `sdbootutil update-all-entries`, the entries of snapshots 59 and 61 carried `90-tcbl.conf`'s options twice, the running snapshot's once. The same code is in `main` (`75bd88a`, November 21). Related, and not a duplicate: issue 411, fixed by pull request 460 (merged October 26), was the running snapshot reading the same directory twice; pull request 458, the alternative, stated that entries of other snapshots were left as before. Duplicate search done November 21.
 - Fix prepared November 21: branch `fix-cmdline-d-duplicate` in Paul's sdbootutil checkout (commit `81775d3`, on `main` 75bd88a): the running system's drop-in is skipped when the snapshot has one with the same name, and a unit case, `t_kcf_dropins_once`, which fails without the change. Issue and pull request texts in `~/Projects/_upstream/`.
+- Filed November 21 as [issue 483](https://github.com/openSUSE/sdbootutil/issues/483). Pull request to follow from the branch (commit `c4d07f8`, "Fix #483").
 
 Title:
 
