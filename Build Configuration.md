@@ -233,8 +233,8 @@ TCBL changes to the installation, in `tik-config-benchtop` (until October 30 in 
 #TODO — File the upstream reports in [Upstream Reports](Upstream%20Reports.md)
 
 - systemd: mkfs.btrfs discarding again after `--empty=force` has discarded the whole disk; only if the install test shows the pause.
-- openSUSE chrony: the default `-s` without `rtconutc` or `hwclockfile` sets the clock from a UTC hardware clock as local time (TCBL: `90-tcbl-rtc.conf` in tc-benchtop-settings); search Bugzilla for an existing report first.
-- sdbootutil: a `cmdline.d` drop-in in both a snapshot and the running system is added twice to that snapshot's entry (report 9, ready).
+- openSUSE chrony: filed as bsc#1291205 (November 21). When fixed in Tumbleweed, reconsider TCBL's `90-tcbl-rtc.conf`.
+- sdbootutil: filed as issue 483 with pull request 484 (November 21).
 - Possibly: the suspend at logout on the dock (logind or GDM), after the dock suspend test.
 - Not filed, with reasons, at the end of Upstream Reports: yast2-samba-server, the three tik reports, Kvantum and patterns-aeon (decided November 20).
 - Track, without a TCBL report: [systemd issue 38829](https://github.com/systemd/systemd/issues/38829) (repart's fstab `discard`) and pull request 38192, a work in progress. When it is fixed in Tumbleweed's systemd, reconsider the `discard=async` in `50-root.conf`. Aeon (same `50-root.conf`): left to Aeon; no report.

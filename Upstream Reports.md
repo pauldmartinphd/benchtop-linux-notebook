@@ -35,6 +35,7 @@ Suggested fix: when the whole-device discard succeeds, mark every new partition 
 - Where: <https://bugzilla.opensuse.org>, product openSUSE Tumbleweed, package chrony; the change was made by Reinhard Max. Search for a duplicate first.
 - Status: confirmed on the laptop (journal timestamps 5 hours ahead from chronyd's start until its first synchronization, on every boot). chrony behaves as documented; the report is about openSUSE's configuration. TCBL works around it with `rtconutc` and `hwclockfile /etc/adjtime` in `/usr/etc/chrony.d/90-tcbl-rtc.conf` (tc-benchtop-settings).
 - Bugzilla search, November 21: no report of this. The change is from the Tumbleweed chrony 4.9-3 changelog (Reinhard Max, September 14, 2026): `OPTIONS="-s"` was made the default as part of the rework for bsc#1279495 and bsc#1145193 (chronyd and chrony-wait ordering). bsc#1279495 is still IN_PROGRESS, assigned to him. In 2020 (bsc#1173276) he had argued against `-s` by default because it also sets the clock from the RTC. File as a new bug referring to bsc#1279495, or as a comment there.
+- Filed November 21 as [bsc#1291205](https://bugzilla.opensuse.org/show_bug.cgi?id=1291205) (openSUSE Tumbleweed, Network), from the account technicomplabs@pauldmartin.org; with the screening team for assignment.
 
 Title:
 
